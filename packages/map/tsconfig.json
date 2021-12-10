@@ -1,0 +1,10 @@
+{
+    "extends": "../../tsconfig",
+    "include": ["src"],
+    "compilerOptions": {
+      "baseUrl": ".",
+      "outDir": "cjs",
+      "noEmit": false
+    }
+  }
+  
