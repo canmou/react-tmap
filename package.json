@@ -1,7 +1,8 @@
 {
-  "private": true,
+  "private": false,
   "homepage": "https://github.com/canmou/react-tmap",
   "scripts": {
+    "version": "lerna version --exact --force-publish --no-push --no-git-tag-version",
     "bootstrap": "lerna bootstrap"
   },
   "devDependencies": {
