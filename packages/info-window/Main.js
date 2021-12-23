@@ -1,6 +1,6 @@
 import { Layout, Menu } from "antd";
 import { LaptopOutlined } from "@ant-design/icons";
-import { MapDemo } from "./components/map-demo";
+import { mapDemo } from "./components/map-demo";
 
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
@@ -15,6 +15,11 @@ export const Main = () => {
         </Menu>
       </Header>
       <Content style={{ padding: "0 50px" }}>
+        {/* <Breadcrumb style={{ margin: "16px 0" }}>
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>List</Breadcrumb.Item>
+          <Breadcrumb.Item>App</Breadcrumb.Item>
+        </Breadcrumb> */}
         <Layout
           className="site-layout-background"
           style={{ padding: "24px 0" }}
@@ -36,13 +41,14 @@ export const Main = () => {
             </Menu>
           </Sider>
           <Content style={{ padding: "0 24px", minHeight: 280 }}>
-            <MapDemo/>
+            <mapDemo/>
           </Content>
         </Layout>
       </Content>
       <Footer style={{ textAlign: "center" }}>
-        Ant Design 2021 Created by Ant UED
+        Ant Design ©2018 Created by Ant UED
       </Footer>
     </Layout>
+    //   mountNode,
   );
 };

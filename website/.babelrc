@@ -1,0 +1,60 @@
+{
+  "presets": [
+    "@babel/preset-env",
+    [
+      "@babel/preset-react",
+      {
+        "runtime": "automatic"
+      }
+    ]
+  ],
+  "plugins": ["@babel/plugin-proposal-class-properties"]
+}
+//   "presets": ["react-native-stage-0/decorator-support"]
+//   "presets": [
+//     [
+//         "@babel/preset-env",
+//       {
+//         "targets": {
+//           "browsers": ["last 2 versions", "safari >= 7"]
+//         }
+//       }
+//     ]
+//   ],
+// {
+//     "presets": ["react", "es2015", "stable-0"]
+// }
+//  "@babel/es2015"
+// "presets": ["@babel/react", "@babel/preset-env"]
+// "plugins": ["transform-object-rest-spread", "transform-react-jsx"]
+//   "plugins": ["transform-class-properties", "transform-object-rest-spread"]
+// "presets": [
+//   [
+//     "env",
+//     {
+//       "targets": {
+//         "node": "current"
+//       }
+//     }
+//   ],
+// ],
+// "presets": [
+//   "@babel/react",
+//   "@babel/preset-env",
+//   // "@babel/preset-react",
+//   {
+//     "plugins": ["@babel/plugin-proposal-class-properties"]
+//   }
+// ]
+// {
+//   "presets": [
+//     "@babel/preset-env",
+//     "@babel/preset-typescript",
+//     [
+//       "@babel/preset-react",
+//       { "runtime": "automatic", "importSource": "@emotion/react" }
+//     ],
+//     "stable-0"
+//   ]
+//   //   "plugins": ["@emotion/babel-plugin"]
+// }

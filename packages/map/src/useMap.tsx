@@ -1,3 +1,4 @@
+/// <reference types="@canmou/react-tmap-types" />
 import { useEffect, useState } from "react";
 // import { Dobound } from "../../util/common";
 

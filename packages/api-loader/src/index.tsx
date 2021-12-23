@@ -1,6 +1,9 @@
+/// <reference types="@canmou/react-tmap-types" />
 import { Component } from "react";
+import { requireScript } from '@canmou/react-tmap-require-script';
+// import React from "react";
 
-interface APILoaderProp {
+export interface APILoaderProp {
     /**
      * 腾讯地图的web key
      */
@@ -28,42 +31,25 @@ interface APILoaderProp {
     libraries?: string;
 }
 
-const _importedScript: { [src: string]: true } = {};
-export function requireScript(src: string, id: string = '_react_amap'): Promise<void> {
-    const headElement = document && (document.head || document.getElementsByTagName('head')[0]);
-    return new Promise((resolve, reject) => {
-        if (!document || src in _importedScript) {
-            resolve();
-            return;
-        }
-        const script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.id = id;
-        script.async = true;
-        script.defer = true;
-        script.src = src;
-        script.onerror = (err) => {
-            headElement.removeChild(script);
-            reject(new URIError(`The Script ${src} is no accessible.`));
-        };
-        script.onload = () => {
-            _importedScript[src] = true;
-            resolve();
-        };
-        headElement.appendChild(script);
-    });
+interface State {
+    loaded: boolean;
+    error?: Error;
 }
 
 export class APILoader extends Component<APILoaderProp> {
-    state = {
-        loaded: false,
-    }
     public static defaultProps = {
         tkey: '',
         libraries: '',
-    };
+    }
+    public state: State = {
+        loaded: false,
+    }
+    // static a = {};
+    // b = 2;
+    // static c = 22;
 
     public constructor(props: APILoaderProp | Readonly<APILoaderProp>) {
+        console.log('props', props);
         super(props);
         if (props.tkey === null) {
             throw new TypeError('TMap: tkey is required');
@@ -75,8 +61,8 @@ export class APILoader extends Component<APILoaderProp> {
         await requireScript(src);
     }
 
-    public async loadMap2() {
-        const src = this.getScriptSrc2();
+    public async loadMapGeoLocation() {
+        const src = this.getScriptSrcGeoLocation();
         await requireScript(src);
     }
 
@@ -87,31 +73,36 @@ export class APILoader extends Component<APILoaderProp> {
         return `https://map.qq.com/api/gljs?v=1.exp&key=${cfg.tkey}&libraries=${cfg.libraries}`;
     }
 
-    private getScriptSrc2() {
+    private getScriptSrcGeoLocation() {
         return `https://mapapi.qq.com/web/mapComponents/geoLocation/v/geolocation.min.js`;
     }
 
     public async componentDidMount() {
+        console.log(this);
         await this.loadMap();
-        await this.loadMap2();
-
+        await this.loadMapGeoLocation();
         if (window.TMap != null) {
-            this.finish();
+            this.setState({
+                loaded: true,
+            });
+            // this.finish();
             // if (window[callbackName as any]) {
             // }
         }
 
     }
 
-    private finish = () => {
-        this.setState({
-            loaded: true,
-        });
-    };
+    // private finish = () => {
+    //     this.setState({
+    //         loaded: true,
+    //     });
+    // };
 
     public render() {
         if (this.state.loaded) {
             return this.props.children;
+        } else {
+            return <div>test</div>;
         }
     }
 }
