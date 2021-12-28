@@ -1,7 +1,6 @@
 /// <reference types="@canmou/react-tmap-types" />
 import { Component } from "react";
 import { requireScript } from '@canmou/react-tmap-require-script';
-// import React from "react";
 
 export interface APILoaderProp {
     /**
