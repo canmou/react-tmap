@@ -3,7 +3,7 @@ import { Map } from "@canmou/react-tmap-map";
 export const MultiMarkerDemo = () => {
   return (
     <div style={{textAlign: 'left'}}>
-      <div>这个是一个点标记</div>
+      <div>这个是一个点标记/文本标记</div>
       <div>使用方式：</div>
       <div>引入@canmou/map @canmou/api-loader</div>
       <div>
