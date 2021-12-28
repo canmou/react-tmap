@@ -7,7 +7,6 @@ export const MultiMarkerDemo = () => {
       <div>使用方式：</div>
       <div>引入@canmou/map @canmou/api-loader</div>
       <div>
-        我是一个地图
         <APILoader tkey="UBXBZ-BPTEJ-DEOFY-FAK72-P2Q7T-3GFRQ">
           <Map style={{ width: "600px", height: "350px" }} /> 
         </APILoader>
