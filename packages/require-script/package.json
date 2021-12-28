@@ -1,6 +1,6 @@
 {
   "name": "@canmou/react-tmap-require-script",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "用于加载腾讯地图SDK依赖，加载完成，全局将会有**`window.TMap`**对象。",
   "main": "cjs/index.js",
   "repository": "https://github.com/canmou/react-tmap.git",
