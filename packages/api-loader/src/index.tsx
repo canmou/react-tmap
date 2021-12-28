@@ -44,9 +44,6 @@ export class APILoader extends Component<APILoaderProp> {
     public state: State = {
         loaded: false,
     }
-    // static a = {};
-    // b = 2;
-    // static c = 22;
 
     public constructor(props: APILoaderProp | Readonly<APILoaderProp>) {
         console.log('props', props);
