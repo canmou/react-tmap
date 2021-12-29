@@ -17,18 +17,3 @@ export const Map = forwardRef<MapProps, MapProps>(({ className, style, children,
         </Fragment>
     )
 });
-
-// export interface MultiMarkerProps {
-//     visiable: boolean;
-// }
-// export const MultiMarker = forwardRef<MultiMarkerProps, MultiMarkerProps>((props, ref) => {
-//     const { multiMarker } = useMultiMarker(props);
-//     return null;
-// });
-// export interface HeatProps {
-//     visiable: boolean;
-// }
-// export const Heat = forwardRef<HeatProps, HeatProps>((props, refs) => {
-//     const { heat } = useHeat(props);
-//     return null;
-// });
