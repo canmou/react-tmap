@@ -2,7 +2,7 @@
   "name": "@canmou/react-tmap-utils",
   "version": "1.0.4",
   "description": "用于加载腾讯地图SDK依赖，加载完成，全局将会有**`window.TMap`**对象。",
-  "types": "index.d.ts",
+  "main": "cjs/index.js",
   "repository": "https://github.com/canmou/react-tmap.git",
   "author": "chenzhaozheng",
   "license": "MIT",

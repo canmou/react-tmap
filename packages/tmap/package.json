@@ -10,5 +10,13 @@
     "react": ">=16.12.0",
     "react-dom": ">=16.12.0"
   },
+  "dependencies": {
+    "@canmou/react-tmap-types": "1.0.3",
+    "@canmou/react-tmap-api-loader": "1.0.3",
+    "@canmou/react-tmap-map": "1.0.4",
+    "@canmou/react-tmap-info-window": "1.0.3",
+    "@canmou/react-tmap-multi-marker": "1.0.3",
+    "@canmou/react-tmap-require-script": "1.0.3"
+  },
   "gitHead": "d71165f4331db135eca5fea5789a863605d7333b"
 }

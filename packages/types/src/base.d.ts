@@ -6,7 +6,7 @@ declare global {
 
 declare namespace TMap {
   class LatLng {
-    constructor(lng: number, lat: number, noWrap?: boolean);
+    constructor(lng: number, lat: number);
   }
 
   class constants {
@@ -53,4 +53,5 @@ declare namespace TMap {
     /** 模拟触发当前实例的某个事件 */
     emit(type: string, data: any): any;
   }
+
 }

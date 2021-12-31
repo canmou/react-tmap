@@ -98,7 +98,7 @@ export class APILoader extends Component<APILoaderProp> {
         if (this.state.loaded) {
             return this.props.children;
         } else {
-            return <div></div>;
+            return <></>;
         }
     }
 }

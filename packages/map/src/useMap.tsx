@@ -1,33 +1,35 @@
 /// <reference types="@canmou/react-tmap-types" />
 import { useEffect, useMemo, useState } from "react";
 import { useSettingProperties, useEventProperties } from '@canmou/react-tmap-utils';
-// import { Dobound } from "../../util/common";
+import { MapProps } from '.';
 
+
+export interface OverlayProps extends MapChildProps { }
 export interface MapChildProps {
     TMap?: typeof TMap;
+
+    map?: TMap.Map;
 }
 
-export interface MapProps {
-    zoom: any;
-}
 
 export interface UseMap extends MapProps, MapChildProps {
-    container: HTMLDivElement | null;
+    container?: HTMLDivElement | null;
 }
 
 export const useMap = (props: Partial<UseMap> = {}) => {
+    const { ...other } = props;
+    const [map, setMap] = useState<TMap.Map>();
     const [zoom, setZoom] = useState(props.zoom || 15);
     const [container, setContainer] = useState(props.container);
-    const [map, setMap] = useState<any>();
-    const { ...other } = props;
-
     useEffect(() => {
         let instance: any;
         if (container && !map && window.TMap) {
-            instance = new TMap.Map(container, {
+            delete other.container;
+            console.log({
                 zoom,
                 ...other,
-            })
+            });
+            instance = new TMap.Map(container, { zoom, ...other })
             // const center = [113.23, 23.16];
             // var center2 = new TMap.LatLng(center[1], center[0]);
             // instance = new TMap.Map(container, {

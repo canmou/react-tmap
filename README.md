@@ -5,7 +5,7 @@
 ## 先绑定相关的包到website目录
 ```
 cd website
-npm link @canmou/react-tmap-api-loader @canmou/react-tmap-map
+npm link @canmou/react-tmap-api-loader @canmou/react-tmap-map @canmou/react-tmap
 
 <!-- api-loader package npm link -->
 npm link @canmou/react-tmap-require-script @canmou/react-tmap-types
