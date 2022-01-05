@@ -1,6 +1,6 @@
 {
   "name": "@canmou/react-tmap-multi-marker",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "用于加载腾讯地图SDK依赖，加载完成，全局将会有**`window.TMap`**对象。",
   "main": "cjs/index.js",
   "repository": "https://github.com/canmou/react-tmap.git",
@@ -15,8 +15,8 @@
     "@types/react-dom": "17.0.11"
   },
   "dependencies": {
-    "@canmou/react-tmap-map": "^1.0.6",
-    "@canmou/react-tmap-utils": "^1.0.6"
+    "@canmou/react-tmap-map": "^1.0.7",
+    "@canmou/react-tmap-utils": "^1.0.7"
   },
   "gitHead": "d71165f4331db135eca5fea5789a863605d7333b"
 }
