@@ -1,8 +1,10 @@
 import { Layout, Menu } from "antd";
 import { LaptopOutlined } from "@ant-design/icons";
 import { MapDemo } from "./components/map-demo";
-import { MultiMarkerDemo } from './components/multiMarker-demo';
-import { CenterDemo } from './components/center-demo';
+import { MultiMarkerDemo } from "./components/multiMarker-demo";
+import { CenterDemo } from "./components/center-demo";
+import { InfoWindowDemo } from "./components/infoWindow-demo";
+import { HeatDemo } from "./components/heat-demo";
 import { useState } from "react";
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
@@ -38,7 +40,7 @@ export const Main = () => {
                   setMenuSelect(event.key);
                 }}
               >
-                <Menu.Item key="1">Api loader && Map</Menu.Item>
+                <Menu.Item key="1">ApiLoader/Map组件</Menu.Item>
                 <Menu.Item key="2">点标记/文本标记</Menu.Item>
                 <Menu.Item key="3">中心点</Menu.Item>
                 <Menu.Item key="4">消息窗体</Menu.Item>
@@ -50,8 +52,8 @@ export const Main = () => {
             {menuSelect === "1" && <MapDemo />}
             {menuSelect === "2" && <MultiMarkerDemo />}
             {menuSelect === "3" && <CenterDemo />}
-            {menuSelect === "4" && <></>}
-            {menuSelect === "5" && <></>}
+            {menuSelect === "4" && <InfoWindowDemo />}
+            {menuSelect === "5" && <HeatDemo />}
           </Content>
         </Layout>
       </Content>

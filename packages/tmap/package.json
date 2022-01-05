@@ -16,7 +16,8 @@
     "@canmou/react-tmap-map": "^1.0.6",
     "@canmou/react-tmap-multi-marker": "^1.0.6",
     "@canmou/react-tmap-require-script": "1.0.3",
-    "@canmou/react-tmap-types": "1.0.3"
+    "@canmou/react-tmap-types": "1.0.3",
+    "@canmou/react-tmap-heat": "1.0.0"
   },
   "gitHead": "d71165f4331db135eca5fea5789a863605d7333b"
 }

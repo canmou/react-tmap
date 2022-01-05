@@ -39,7 +39,7 @@ declare namespace TMap {
      */
     setCenter();
     /** 获取地图中心点经纬度坐标值。 */
-    getCenter(): LngLat;
+    getCenter(): LatLng;
     /**
      * 获取当前地图视图范围/可视区域。
      * @returns 边界经纬度
@@ -95,6 +95,9 @@ declare namespace TMap {
      * @param duration 动画过度的时长控制，单位 ms，默认值是内部自动计算的一个动态值。
      */
     panTo(lnglat: [number, number] | LngLat, duration?: number): void;
+
+
+
   }
   interface MapEvents {
     /**
