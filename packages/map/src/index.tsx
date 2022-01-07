@@ -19,7 +19,6 @@ export const Map = forwardRef<MapProps & { map?: TMap.Map }, MapProps & RenderPr
     const elmRef = useRef<HTMLDivElement>(null);
     const { setContainer, container, map } = useMap({ container: elmRef.current, ...props });
     useEffect(() => setContainer(elmRef.current), [elmRef.current]);
-    // ddd
     useImperativeHandle(ref, () => ({ ...props, map, TMap, container: elmRef.current }), [map]);
     const childs = Children.toArray(children);
     return (
