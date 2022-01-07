@@ -220,7 +220,7 @@ declare namespace TMap {
     /**
      *
      */
-    onCenter_changed?: () => void;
+    onCenter_Changed?: () => void;
 
     /**
      *
