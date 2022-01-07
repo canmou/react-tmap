@@ -95,9 +95,6 @@ declare namespace TMap {
      * @param duration 动画过度的时长控制，单位 ms，默认值是内部自动计算的一个动态值。
      */
     panTo(lnglat: [number, number] | LngLat, duration?: number): void;
-
-
-
   }
   interface MapEvents {
     /**
@@ -219,7 +216,18 @@ declare namespace TMap {
      * 地图容器尺寸改变事件
      */
     onResize?: () => void;
+
+    /**
+     *
+     */
+    onCenter_changed?: () => void;
+
+    /**
+     *
+     */
+    onZoom_Changed?: () => void;
   }
+
   interface MapStates {
     /**
      * 地图是否可通过双击鼠标放大地图, 默认为true。此属性可被setStatus/getStatus 方法控制
