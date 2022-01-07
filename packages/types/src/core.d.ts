@@ -31,6 +31,7 @@ declare namespace TMap {
     | "touchmove"
     | "touchend"
     | "resize"
+    | "center_changed"
   > {
     constructor(div: string | HTMLElement, opts?: MapOptions);
     /**
