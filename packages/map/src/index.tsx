@@ -3,8 +3,6 @@ import { Children, cloneElement, forwardRef, Fragment, isValidElement, useEffect
 import { useMap } from "./useMap";
 
 export * from './useMap';
-
-// 简化react-amap，react for 腾讯地图
 export interface MapProps extends TMap.MapEvents, TMap.MapOptions {
     className?: React.HTMLAttributes<HTMLDivElement>['className'];
     style?: React.HTMLAttributes<HTMLDivElement>['style'];

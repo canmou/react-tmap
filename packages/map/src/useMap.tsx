@@ -11,7 +11,6 @@ export interface MapChildProps {
     map?: TMap.Map;
 }
 
-
 export interface UseMap extends MapProps, MapChildProps {
     container?: HTMLDivElement | null;
 }
