@@ -1,6 +1,6 @@
 {
   "name": "@canmou/react-tmap-heat",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "用于加载腾讯地图SDK依赖，加载完成，全局将会有**`window.TMap`**对象。",
   "main": "cjs/index.js",
   "repository": "https://github.com/canmou/react-tmap.git",
@@ -11,9 +11,9 @@
     "react-dom": ">=16.12.0"
   },
   "dependencies": {
-    "@canmou/react-tmap-map": "^1.0.16",
-    "@canmou/react-tmap-types": "^1.0.12",
-    "@canmou/react-tmap-utils": "^1.0.12"
+    "@canmou/react-tmap-map": "^1.0.17",
+    "@canmou/react-tmap-types": "^1.0.17",
+    "@canmou/react-tmap-utils": "^1.0.17"
   },
   "devDependencies": {
     "@types/react": "17.0.34",
