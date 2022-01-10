@@ -41,7 +41,7 @@ declare namespace TMap {
    */
   interface HeatOptions {
     // 非配置参数，但是加载入地图需要用map
-    map?: TMap;
+    // map?: TMxap;
 
     // 最大辐射半径，默认为50。
     radius: number;

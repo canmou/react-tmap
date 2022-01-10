@@ -46,7 +46,7 @@ export const useMultiMarker = (props = {} as UseMultiMarker) => {
             let instance: TMap.MultiMarker = new TMap.MultiMarker({
                 map,
                 styles: {
-                    marker: initStyle
+                    marker: new TMap.MultiMarker.MarkerStyle(initStyle),
                 },
                 geometries: initGeometries,
             }).setMap(map);

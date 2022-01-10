@@ -10,7 +10,6 @@ export const useVisualizationHeat = (props = {} as UseVisualizationHeat) => {
     useEffect(() => {
         if (!TMap || !map) return;
         if (!visualizationHeat) {
-            debugger;
             let instance: TMap.visualization.Heat = new TMap.visualization.Heat({
                 ...other,
             });

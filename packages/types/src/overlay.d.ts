@@ -37,7 +37,7 @@ declare namespace TMap {
   }
 
   // 点标记
-  class MultiMarker extends MapEventListener<
+  class MultiMarker  extends MapEventListener<
     | "touchstart"
     | "touchend"
     | "mousemove"
@@ -70,6 +70,8 @@ declare namespace TMap {
     // on(eventName:String, listener:Function);
     // off(eventName:String, listener:Function);
   }
+
+
 
   // 消息窗体
   class InfoWindow extends MapEventListener {
@@ -118,5 +120,27 @@ declare namespace TMap {
     // 关闭后触发事件
     onClose?(opts: { type: string }): void;
     onChange?(): void;
+  }
+
+  //  Marker图层的样式配置
+  class MarkerStyleOptions {
+    // 必需，标注点图片的宽度，默认为34
+    width: number;
+    // 必需，标注点图片的高度，默认为50
+    height: number;
+    // 标注点图片的锚点位置，对象字面量{x:Number, y:Number}形式，在地图各种操作中，锚点的位置与标注位置点是永远对应的；若没有锚点默认为{ x: width/2, y: height }；锚点以图片左上角点为原点
+    anchor?: object;
+    src?: string;
+    faceTo?: string;
+    rotate?: number;
+    color?: string;
+    strokeColor?: string;
+    strokeWidth?: number;
+    size?: number;
+    direction?: string;
+    offset?: {
+      x: number,
+      y: number,
+    }
   }
 }

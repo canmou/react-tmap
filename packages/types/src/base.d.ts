@@ -59,4 +59,5 @@ declare namespace TMap {
     // /** 模拟触发当前实例的某个事件 */
     // emit(type: string, data: any): any;
   }
+
 }
