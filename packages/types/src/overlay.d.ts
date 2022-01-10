@@ -12,10 +12,13 @@ declare namespace TMap {
   }
 
   // 点标记样式
-  interface MarkerStyle {
-    width: number;
-    height: number;
+  class MarkerStyle {
+    constructor(opt: MarkerStyleOptions)
   }
+  // interface MarkerStyle {
+  //   width: number;
+  //   height: number;
+  // }
 
   // 点标记事件
   interface MultiMarkerEvents
@@ -27,13 +30,16 @@ declare namespace TMap {
   // 点标记设置
   interface MultiMarkerOptions {
     id?: string;
-    map: Map;
+    // map: Map;
     styles: any;
     geometries: any;
   }
 
   interface MultiMarkerStyleHash {
-    [key: string]: MarkerStyle;
+    [key: string]: {
+      width: number;
+      height: number;
+    };
   }
 
   // 点标记

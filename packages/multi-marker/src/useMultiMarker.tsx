@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useEventProperties, useSettingProperties, useVisiable } from "@canmou/react-tmap-utils";
+import { useEventProperties, useSettingProperties } from "@canmou/react-tmap-utils";
 import { MultiMarkerProps } from "src";
 
 export interface UseMultiMarker extends MultiMarkerProps { }
@@ -44,9 +44,8 @@ export const useMultiMarker = (props = {} as UseMultiMarker) => {
                 })
             }
             let instance: TMap.MultiMarker = new TMap.MultiMarker({
-                map,
                 styles: {
-                    marker: new TMap.MultiMarker.MarkerStyle(initStyle),
+                    marker: new TMap.MarkerStyle(initStyle),
                 },
                 geometries: initGeometries,
             }).setMap(map);
@@ -60,7 +59,7 @@ export const useMultiMarker = (props = {} as UseMultiMarker) => {
         }
     }, [map]);
 
-    useVisiable(multiMarker!, visiable);
+    // useVisiable(multiMarker!, visiable);
     useSettingProperties<TMap.MultiMarker, UseMultiMarker>(multiMarker!, props, [
         'Map',
         'Geometries',
