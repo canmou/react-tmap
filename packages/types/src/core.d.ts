@@ -219,14 +219,20 @@ declare namespace TMap {
     onResize?: () => void;
 
     /**
-     *
+     * 中心点改变
      */
     onCenter_Changed?: () => void;
 
     /**
-     *
+     * 缩放改变
      */
     onZoom_Changed?: () => void;
+
+
+    /**
+     * 可视化区域改变
+     */
+     onBounds_Changed?: () => void;
   }
 
   interface MapStates {

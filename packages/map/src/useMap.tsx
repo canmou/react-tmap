@@ -95,7 +95,8 @@ export const useMap = (props: Partial<UseMap> = {}) => {
         'onTouchEnd',
         'onResize',
         'onCenter_Changed',
-        'onZoom_Changed'
+        'onZoom_Changed',
+        'onBounds_Changed',
     ]);
 
     return {
