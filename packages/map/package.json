@@ -1,6 +1,6 @@
 {
   "name": "@canmou/react-tmap-map",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "description": "用于加载腾讯地图SDK依赖，加载完成，全局将会有**`window.TMap`**对象。",
   "main": "cjs/index.js",
   "module": "esm/index.js",
