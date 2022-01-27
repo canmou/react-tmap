@@ -17,6 +17,9 @@ export const CenterDemo = () => {
             onMoveEnd={() => {
               console.log("触碰后松开");
             }}
+            minZoom={10}
+            scrollwheel={false}
+            disableDoubleClickZoom={true}
           >
             {({ TMap, map, container }) => {
               console.log("map", map);
