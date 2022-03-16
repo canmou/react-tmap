@@ -34,18 +34,13 @@ declare namespace TMap {
     | "center_changed"
   > {
     constructor(div: string | HTMLElement, opts?: MapOptions);
+
     /**
      * 设置中心点
      * @param center 中心点
      */
     setCenter();
-    /** 获取地图中心点经纬度坐标值。 */
-    getCenter(): LatLng;
-    /**
-     * 获取当前地图视图范围/可视区域。
-     * @returns 边界经纬度
-     */
-    getBounds(): Bounds;
+
     /**
      * 设置地图显示的缩放级别，参数 zoom 可设范围：[2, 20]
      * @param zoom
@@ -57,28 +52,7 @@ declare namespace TMap {
       immediately: boolean = false,
       duration?: number
     ): void;
-    /**
-     * 获取当前地图缩放级别, 默认取值范围为[2, 20]
-     * @param digits zoom级别的小数位精度，缺省为2
-     */
-    getZoom(digits: number): number;
-    /** 获取地图当前俯仰角 */
-    getPitch(): number;
-    /**
-     * 设置地图俯仰角
-     * @param Pitch 角度
-     * @param immediately 是否立即过渡到目标位置
-     * @param duration 如果使用动画过度，动画过度的时长控制，单位 ms，默认值是内部自动计算的一个动态值。
-     */
-    setPitch(
-      Pitch: number,
-      immediately: boolean = false,
-      duration?: number
-    ): void;
-    /** 返回地图对象的容器 */
-    getContainer(): HTMLElement;
-    /** 获取地图顺时针旋转角度, 范围: [0 ~ 360] */
-    getRotation(): number;
+
     /**
      * 设置地图顺时针旋转角度, 旋转原点为地图容器中心点, 取值范围: [0 ~ 360]
      * @param rotation 旋转角度
@@ -90,12 +64,295 @@ declare namespace TMap {
       immediately: boolean = false,
       duration?: number
     );
+
+    /**
+     * 设置地图俯仰角
+     * @param Pitch 角度
+     * @param immediately 是否立即过渡到目标位置
+     * @param duration 如果使用动画过度，动画过度的时长控制，单位 ms，默认值是内部自动计算的一个动态值。
+     */
+    setPitch(
+      Pitch: number,
+      immediately: boolean = false,
+      duration?: number
+    ): void;
+
+    /**
+     * 设置地图显示比例
+     * @param scale 比例值
+     */
+    setScale(scale: number): void;
+
+    /**
+     * 设置地图与容器偏移量，Object的格式为{x:Number, y:Number}，x方向向右偏移为正值，y方向向下偏移为正值。
+     * @param offect 偏移量
+     */
+    setOffset(offset: { x: number; y: number }): void;
+
+    /**
+     * 设置地图是否支持拖拽。
+     * @param draggable 是否支持
+     */
+    setDraggabl(draggable: boolean): void;
+
+    /**
+     * 设置地图是否支持滚轮缩放。
+     * @param scrollable
+     */
+    setScrollable(scrollable: boolean): void;
+
+    /**
+     * 设置地图最大缩放级别，支持3～20。
+     * @param maxZoom
+     */
+    setMaxZoom(maxZoom: number): void;
+
+    /**
+     * 设置地图最小缩放级别，支持3～20。
+     * @param minZoom
+     */
+    setMinxZoom(minZoom: number): void;
+
+    /**
+     * 设置地图是否支持改变俯仰角度。在2D视图下，此方法无效。
+     * @param pitchable
+     */
+    setPitchable(pitchable: boolean): void;
+
+    /**
+     * 设置地图是否支持改变旋转角度。在2D视图下，此方法无效
+     * @param rotatable
+     */
+    setRotatable(rotatable: boolean): void;
+
+    /**
+     * 设置地图是否支持双击缩放。
+     * @param doubleClickZoom
+     */
+    setDoubleClickZoom(doubleClickZoom: boolean): void;
+
+    /**
+     * 设置地图限制边界，拖拽、缩放等操作无法将地图移动至边界外。
+     * @param boundary
+     */
+    setBoundary(boundary: TMap.AnimationOptions): void;
+
+    /**
+     * 设置地图视图模式。
+     * @param viewMode
+     */
+    setViewMode(viewMode: string): void;
+
+    /**
+     * 动态设置地图底图，BaseMap目前支持矢量底图（VectorBaseMap）、卫星底图（SatelliteBaseMap）、路况底图（TrafficBaseMap），可以使用数组形式实现多种底图叠加。
+     * @param baseMap
+     */
+    setBaseMap(baseMap: BaseMap | BaseMap[]): void;
+
+    /**
+     * 	动态设置个性化地图样式。
+     * @param mapStyleId
+     */
+    setMapStyleld(mapStyleId: string): void;
+
     /**
      * 指定当前地图显示范围，参数 bounds 为指定的范围
      * @param lnglat
      * @param duration 动画过度的时长控制，单位 ms，默认值是内部自动计算的一个动态值。
      */
     panTo(lnglat: [number, number] | LngLat, duration?: number): void;
+
+    /**
+     * 平滑缩放到指定级别。
+     * @param zoom
+     * @param opts
+     */
+    zoomTo(zoom: number, opts: EaseOptions): void;
+
+    /**
+     * 平滑旋转到指定角度。
+     * @param rotation
+     * @param opts
+     */
+    rotateTo(rotation: number, opts: EaseOptions): void;
+
+    /**
+     * 平滑变化到指定俯仰角度。
+     * @param pitch
+     * @param opts
+     */
+    pitchTo(pitch: Number, opts: EaseOptions): void;
+
+    /**
+     * 平滑过渡到指定状态，mapStatus为key-value格式，可以设定center、zoom、rotation、pitch。
+     * @param mapStatus
+     * @param opts
+     */
+    easeTo(mapStatus: Object, opts: EaseOptions): void;
+
+    /**
+     * 根据指定的地理范围调整地图视野。
+     * @param bounds
+     * @param options
+     */
+    fitBounds(bounds: LatLngBounds, options: FitBoundsOptions): void;
+
+    /**
+     * 获取地图中心点经纬度坐标值。
+     */
+    getCenter(): LatLng;
+
+    /**
+     * 获取地图缩放级别。
+     */
+    getZoom(): void;
+
+    /**
+     * 获取地图顺时针旋转角度
+     * */
+    getRotation(): number;
+
+    /**
+     *  获取地图当前俯仰角
+     * */
+    getPitch(): number;
+
+    /**
+     * 获取当前地图视图范围/可视区域。
+     * @returns 边界经纬度
+     */
+    getBounds(): LatLngBounds;
+
+    /**
+     * 获取地图显示比例。
+     */
+    getScale(): number;
+
+    /**
+     * 获取地图与容器的偏移量Object的格式为 {x:Number, y:Number}，x方向向右偏移为正值，y方向向下偏移为正值。
+     */
+    getOffset(): { x: number; y: number };
+
+    /**
+     * 获取地图是否支持拖拽。
+     */
+    getDraggable(): boolean;
+
+    /**
+     * 	获取地图是否支持滚轮缩放。
+     */
+    getScrollable(): boolean;
+
+    /**
+     * 获取地图是否支持双击缩放。
+     */
+    getDoubleClickZoom(): boolean;
+
+    /**
+     * 获取地图限制边界。
+     */
+    getBoundary(): LatLngBounds;
+
+    /**
+     * 添加控件到地图,传入控件对象。
+     * @param control
+     */
+    addControl(control: Control): string;
+
+    /**
+     * 从地图容器移出控件,默认控件的id列表参考 DEFAULT_CONTROL_ID
+     * @param id
+     */
+    removeControl(id: string): string;
+
+    /**
+     * 根据控件id获取对应的控件对象,默认控件的id列表参考 DEFAULT_CONTROL_ID。
+     * @param id
+     */
+    getControl(id: string): Control;
+
+    /**
+     * 	获取地图视图模式。
+     */
+    getViewMode(): string;
+
+    /**
+     * 获取当前的底图类型。
+     */
+    getBaseMap(): BaseMap | BaseMap[];
+
+    /**
+     * 获取室内地图管理器。
+     */
+    getIndoorManager(): IndoorManager;
+
+    /**
+     * 销毁地图。
+     */
+    destroy(): void;
+
+    /**
+     * 经纬度坐标转换为容器像素坐标，容器像素坐标系以地图容器左上角点为原点。
+     * @param latLng
+     */
+    projectToContainer(latLng: LatLng);
+
+    /**
+     * 经纬度坐标转换为容器像素坐标，容器像素坐标系以地图容器左上角点为原点。
+     * @param pixel
+     */
+    unprojectFromContainer(pixel: Point);
+
+    /**
+     * 修改图层层级顺序，根据输入 LAYER_LEVEL 常量调整 layerId 对应图层的渲染层级 ，其中layerId可以通过图层getId方法获取。注： 设置ZIndex 可调整同一大类层级下的不同图层顺序，此方法则是调整目标图层的大类层级。
+     * @param layerId
+     * @param level
+     */
+    moveLayer(layerId: String, level: LAYER_LEVEL);
+
+    /**
+     * 开始动画，通过keyFrames定义关键帧
+     * @param keyFrames
+     * @param opts
+     */
+    startAnimation(keyFrames: MapKeyFrame[], opts: AnimationOptions);
+
+    /**
+     * 停止动画，停止后无法通过resumeAnimation恢复
+     */
+    stopAnimation();
+
+    /**
+     * 暂停动画
+     */
+    pauseAnimation();
+
+    /**
+     * 恢复动画
+     */
+    resumeAnimation();
+
+    /**
+     * 启用地图区域高亮功能
+     * @param opts
+     */
+    enableAreaHighlight(opts: highlightOptions);
+
+    /**
+     * 禁用地图区域高亮功能
+     */
+    disableAreaHighlight();
+
+    /**
+     * 启用地图区域掩膜功能
+     * @param opts
+     */
+    enableAreaClip(opts: ClipOptions);
+
+    /**
+     * 停用地图区域掩膜功能
+     */
+    disableAreaClip();
   }
   interface MapEvents {
     /**
@@ -228,11 +485,10 @@ declare namespace TMap {
      */
     onZoom_Changed?: () => void;
 
-
     /**
      * 可视化区域改变
      */
-     onBounds_Changed?: () => void;
+    onBounds_Changed?: () => void;
   }
 
   interface MapStates {
@@ -280,6 +536,7 @@ declare namespace TMap {
      */
     keyboardEnable?: boolean;
   }
+
   /**
    * 地图初始化参数
    */
@@ -362,4 +619,129 @@ declare namespace TMap {
      */
     mask?: Array<number>;
   }
+
+  /**
+   *
+   */
+  interface EaseOptions {
+    duration: number;
+  }
+
+  /**
+   * 地图自适应地理范围配置参数，可控制边距以及限制缩放等级。
+   */
+  interface FitBoundsOptions {
+    /**
+     * 设定的地理范围与可视窗口之间的距离，可以通过{top:Number, bottom:Number, left:Number, right:Number}的格式明确各方向的边距，或仅传入一个数字统一各方向的边距，不可为负数。
+     */
+    padding: number | object;
+
+    /**
+     * 调整视野时的最小缩放等级，默认值且最小值为地图的最小缩放等级。
+     */
+    minZoom: number;
+
+    /**
+     * 调整视野时的最大缩放等级，默认值且最大值为地图的最大缩放等级。
+     */
+    maxZoom: number;
+
+    /**
+     * 缓动配置，可设置地图视野变化过程的动画效果。
+     */
+    ease: EaseOptions;
+  }
+
+  /**
+   * 地图掩膜区域设置。
+   */
+  interface ClipOptions {
+    paths: LatLng;
+  }
+
+  /**
+   * 地图高亮区域设置。
+   */
+  interface highlightOptions {
+    /**
+     * 高亮区域轮廓坐标点串
+     */
+    paths: LatLng;
+
+    /**
+     * 高亮色，区域内地图元素将与该色进行混合，支持rgb()，rgba()，#RRGGBB等形式，默认为rgba(0, 0, 0, 0)
+     */
+    highlightColor: string;
+
+    /**
+     * 阴影色，区域外地图元素将与该色进行混合，支持rgb()，rgba()，#RRGGBB等形式，默认为rgba(0, 0, 0, 0.4)
+     */
+    shadeColor: string;
+  }
+
+  /**
+   * 地图动画关键帧对象。
+   */
+  interface MapKeyFrame {
+    /**
+     * 动画过程中该关键帧的百分比，取值范围为0~1
+     */
+    percentage: number;
+
+    /**
+     * 地图中心点经纬度
+     */
+    center: LatLng;
+
+    /**
+     * 地图缩放级别
+     */
+    zoom: number;
+
+    /**
+     * 地图在水平面上的旋转角度
+     */
+    rotation: number;
+
+    /**
+     * 地图俯仰角度，取值范围为0~80
+     */
+    pitch: number;
+  }
+
+  /**
+   * 动画参数。
+   */
+  interface AnimationOptions {
+    /**
+     * 动画周期时长，单位为ms，默认为1000
+     */
+    duration: number;
+    /**
+     * 动画周期循环次数，若为Infinity则无限循环，默认为1
+     */
+    loop: number;
+  }
+
+  /**
+   *   图层渲染层级常量。
+   */
+  interface LAYER_LEVEL {
+    UNDERGROUND;
+    BASE;
+    GROUND;
+    BUILDING;
+    OVERLAY_AA;
+    TEXT;
+    OVERLAY_NAA;
+  }
+
+  /**
+   * 地图缩放焦点常量。
+   */
+  interface MAP_ZOOM_TYPE {
+    DEFAULT;
+    CENTER;
+  }
+
 }

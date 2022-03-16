@@ -23,9 +23,9 @@ export interface APILoaderProp {
     /**
      * JSONP 回调函数
      */
-    callbackName: string;
+    callbackName?: string;
     /**
-     * 插件？
+     * 引入附加库
      */
     libraries?: string;
 }
@@ -38,8 +38,9 @@ interface State {
 export class APILoader extends Component<APILoaderProp> {
     public static defaultProps = {
         tkey: '',
-        libraries: '',
+        libraries: 'service',
     }
+
     public state: State = {
         loaded: false,
     }
@@ -64,8 +65,6 @@ export class APILoader extends Component<APILoaderProp> {
 
     private getScriptSrc() {
         const cfg = this.props;
-        // UBXBZ-BPTEJ-DEOFY-FAK72-P2Q7T-3GFRQ
-        // service,geometry,visualization
         return `https://map.qq.com/api/gljs?v=1.exp&key=${cfg.tkey}&libraries=${cfg.libraries}`;
     }
 
@@ -74,7 +73,6 @@ export class APILoader extends Component<APILoaderProp> {
     }
 
     public async componentDidMount() {
-        console.log(this);
         await this.loadMap();
         await this.loadMapGeoLocation();
         if (window.TMap != null) {

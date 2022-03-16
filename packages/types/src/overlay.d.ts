@@ -13,7 +13,7 @@ declare namespace TMap {
 
   // 点标记样式
   class MarkerStyle {
-    constructor(opt: MarkerStyleOptions)
+    constructor(opt: MarkerStyleOptions);
   }
   // interface MarkerStyle {
   //   width: number;
@@ -43,7 +43,7 @@ declare namespace TMap {
   }
 
   // 点标记
-  class MultiMarker  extends MapEventListener<
+  class MultiMarker extends MapEventListener<
     | "touchstart"
     | "touchend"
     | "mousemove"
@@ -76,8 +76,6 @@ declare namespace TMap {
     // on(eventName:String, listener:Function);
     // off(eventName:String, listener:Function);
   }
-
-
 
   // 消息窗体
   class InfoWindow extends MapEventListener {
@@ -145,8 +143,69 @@ declare namespace TMap {
     size?: number;
     direction?: string;
     offset?: {
-      x: number,
-      y: number,
-    }
+      x: number;
+      y: number;
+    };
+  }
+
+  /**
+   * 描述一个矩形的地理坐标范围。
+   */
+  class LatLngBounds {
+    constructor(sw: LatLng, ne: LatLng);
+
+    /**
+     * 获取该范围的中心点坐标。
+     */
+    getCenter(): LatLng;
+
+    /**
+     * 获取该范围的东北角坐标。
+     */
+    getNorthEast(): LatLng;
+
+    /**
+     * 获取该范围的西南角坐标。
+     */
+    getSouthWest(): LatLng;
+
+    /**
+     * 扩展该范围边界，以包含指定的坐标点。
+     */
+    extend(latlng: LatLng): void;
+
+    /**
+     * 扩展该范围边界，以包含指定的一个矩形范围。
+     * @param other
+     */
+    union(other: LatLngBounds): void;
+
+    /**
+     * 比较两个矩形范围是否完全相等。
+     * @param other
+     */
+    equals(other: LatLngBounds): void;
+
+    /**
+     * 判断该范围是否与另一矩形范围相交。
+     * @param other
+     */
+    intersects(other: LatLngBounds): boolean;
+
+    /**
+     * 判断该范围是否为空。
+     */
+    isEmpty(): boolean;
+
+    /**
+     * 判断指定的坐标是否在这个范围内。
+     * @param latlng
+     */
+    contains(latlng: LatLng): boolean;
+
+    /**
+     * 转换为字符串表示。
+     */
+    toString(): string;
   }
 }
