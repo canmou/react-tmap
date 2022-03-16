@@ -354,79 +354,79 @@ declare namespace TMap {
      */
     disableAreaClip();
   }
+
+  /**
+   * 地图事件
+   */
   interface MapEvents {
-    /**
-     * 地图缩放级别更改后触发
-     */
-    onZoomChange?: () => void;
     /**
      * 地图平移时触发事件
      */
-    onMapMove?: () => void;
+    onMapMove?: (event: MapEvent) => void;
     /**
      * 鼠标在地图上移动时触发
      */
-    onMouseMove?: (event: MapsEvent) => void;
+    onMouseMove?: (event: MapEvent) => void;
     /**
      * 鼠标滚轮开始缩放地图时触发
      */
-    onMouseWheel?: (event: MapsEvent) => void;
+    onMouseWheel?: (event: MapEvent) => void;
     /**
      * 鼠标移入地图容器内时触发
      */
-    onMouseOver?: (event: MapsEvent) => void;
+    onMouseOver?: (event: MapEvent) => void;
     /**
      * 鼠标移出地图容器时触发
      */
-    onMouseOut?: (event: MapsEvent) => void;
+    onMouseOut?: (event: MapEvent) => void;
     /**
      * 鼠标在地图上单击抬起时触发
      */
-    onMouseUp?: (event: MapsEvent) => void;
+    onMouseUp?: (event: MapEvent) => void;
     /**
      * 鼠标在地图上单击按下时触发
      */
-    onMouseDown?: (event: MapsEvent) => void;
+    onMouseDown?: (event: MapEvent) => void;
     /**
      * 缩放开始时触发
      */
-    onZoomStart?: () => void;
+    onZoomStart?: (event: MapEvent) => void;
     /**
      * 鼠标左键双击事件
      */
-    onDblClick?: (event: MapsEvent) => void;
+    onDblClick?: (event: MapEvent) => void;
     /**
      * 鼠标左键单击事件
      */
-    onClick?: (event: MapsEvent) => void;
+    onClick?: (event: MapEvent) => void;
     /**
      * 缩放结束时触发
      */
-    onZoomEnd?: () => void;
+    onZoomEnd?: (event: MapEvent) => void;
     /**
      * 地图移动结束后触发，包括平移，以及中心点变化的缩放。如地图有拖拽缓动效果，则在缓动结束后触发
      */
-    onMoveEnd?: () => void;
+    onMoveEnd?: (event: MapEvent) => void;
     /**
      * 鼠标右键单击事件
      */
-    onRightClick?: (event: MapsEvent) => void;
+    onRightClick?: (event: MapEvent) => void;
     /**
      * 地图平移开始时触发
      */
-    onMoveStart?: () => void;
+    onMoveStart?: (event: MapEvent) => void;
     /**
      * 开始拖拽地图时触发
      */
-    onDragStart?: () => void;
+    onDragStart?: (event: MapsEvent) => void;
     /**
      * 拖拽地图过程中触发
      */
-    onDragging?: () => void;
+    onDragging?: (event: MapEvent) => void;
     /**
      * 停止拖拽地图时触发。如地图有拖拽缓动效果，则在拽停止，缓动开始前触发
      */
-    onDragEnd?: () => void;
+    onDragEnd?: (event: MapEvent) => void;
     /**
      * 鼠标点击热点时触发
      */
@@ -457,7 +457,7 @@ declare namespace TMap {
     /**
      * 触摸开始时触发事件，仅适用移动设备
      */
-    onTouchStart?: (event: MapsEvent) => void;
+    onTouchStart?: (event: MapEvent) => void;
     /**
      * 地图资源加载完成后触发事件
      */
@@ -465,30 +465,29 @@ declare namespace TMap {
     /**
      * 拖拽地图过程中触发，仅适用移动设备
      */
-    onTouchMove?: (event: MapsEvent) => void;
+    onTouchMove?: (event: MapEvent) => void;
     /**
      * 触摸结束时触发事件，仅适用移动设备
      */
-    onTouchEnd?: (event: MapsEvent) => void;
+    onTouchEnd?: (event: MapEvent) => void;
     /**
      * 地图容器尺寸改变事件
      */
-    onResize?: () => void;
-
+    onResize?: (event: MapEvent) => void;
     /**
      * 中心点改变
      */
-    onCenter_Changed?: () => void;
+    onCenter_Changed?: (event: MapEvent) => void;
 
     /**
      * 缩放改变
      */
-    onZoom_Changed?: () => void;
+    onZoom_Changed?: (event: MapEvent) => void;
 
     /**
      * 可视化区域改变
      */
-    onBounds_Changed?: () => void;
+    onBounds_Changed?: (event: MapEvent) => void;
   }
 
   interface MapStates {
@@ -742,6 +741,51 @@ declare namespace TMap {
   interface MAP_ZOOM_TYPE {
     DEFAULT;
     CENTER;
+  }
+
+  /**
+   * 地图事件返回参数规范。
+   */
+  interface MapEvent {
+    /**
+     * 事件发生时的经纬度坐标。
+     */
+    latLng: LatLng;
+    /**
+     * 事件发生时的屏幕位置，返回{x:Number, y:Number}格式
+     */
+    point: { x: number, y: number };
+    /**
+     * 事件类型。
+     */
+    type: string;
+    /**
+     * 事件的目标对象。
+     */
+    target: object;
+    /**
+     * 事件触发位置的poi信息，当触发位置没有poi点时值为null（仅支持click事件）
+     */
+    poi: POIInfo | null;
+    /**
+     * 浏览器原生的事件对象。
+     */
+    originalEvent: MouseEvent | TouchEvent;
+  }
+
+
+  /**
+   *  地图事件返回参数中的poi信息。
+   */
+  interface POIInfo {
+    /**
+     * poi的经纬度位置。
+     */
+    latLng: LatLng;
+    /**
+     * 	Poi名称。
+     */
+    name: string;
   }
 
 }
