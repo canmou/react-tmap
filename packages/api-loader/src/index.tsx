@@ -85,13 +85,11 @@ export class APILoader extends Component<APILoaderProp> {
         }
 
     }
-
     // private finish = () => {
     //     this.setState({
     //         loaded: true,
     //     });
     // };
-
     public render() {
         if (this.state.loaded) {
             return this.props.children;
