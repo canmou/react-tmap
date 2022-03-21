@@ -39,7 +39,7 @@ declare namespace TMap {
      * 设置中心点
      * @param center 中心点
      */
-    setCenter();
+    setCenter(center: LatLng): void;
 
     /**
      * 设置地图显示的缩放级别，参数 zoom 可设范围：[2, 20]
@@ -360,108 +360,50 @@ declare namespace TMap {
    */
   interface MapEvents {
     /**
-     * 地图平移时触发事件
+     * 地图进入空闲状态时触发。
      */
-    onMapMove?: (event: MapEvent) => void;
+    onIdle?: () => void;
+
     /**
-     * 鼠标在地图上移动时触发
+     * 当地图容器中可见的瓦片加载完后会触发此事件。
      */
-    onMouseMove?: (event: MapEvent) => void;
-    /**
-     * 鼠标滚轮开始缩放地图时触发
-     */
-    onMouseWheel?: (event: MapEvent) => void;
-    /**
-     * 鼠标移入地图容器内时触发
-     */
-    onMouseOver?: (event: MapEvent) => void;
-    /**
-     * 鼠标移出地图容器时触发
-     */
-    onMouseOut?: (event: MapEvent) => void;
-    /**
-     * 鼠标在地图上单击抬起时触发
-     */
-    onMouseUp?: (event: MapEvent) => void;
-    /**
-     * 鼠标在地图上单击按下时触发
-     */
-    onMouseDown?: (event: MapEvent) => void;
-    /**
-     * 缩放开始时触发
-     */
-    onZoomStart?: (event: MapEvent) => void;
-    /**
-     * 鼠标左键双击事件
-     */
-    onDblClick?: (event: MapEvent) => void;
+    onTilesloaded: () => void;
+
     /**
      * 鼠标左键单击事件
      */
     onClick?: (event: MapEvent) => void;
-    /**
-     * 缩放结束时触发
-     */
-    onZoomEnd?: (event: MapEvent) => void;
-    /**
-     * 地图移动结束后触发，包括平移，以及中心点变化的缩放。如地图有拖拽缓动效果，则在缓动结束后触发
-     */
-    onMoveEnd?: (event: MapEvent) => void;
+
     /**
      * 鼠标右键单击事件
      */
     onRightClick?: (event: MapEvent) => void;
+
     /**
-     * 地图平移开始时触发
+     * 鼠标左键双击事件
      */
-    onMoveStart?: (event: MapEvent) => void;
+    onDblClick?: (event: MapEvent) => void;
+
     /**
-     * 开始拖拽地图时触发
+     * 鼠标在地图上单击按下时触发
      */
-    onDragStart?: (event: MapsEvent) => void;
+    onMouseDown?: (event: MapEvent) => void;
+
     /**
-     * 拖拽地图过程中触发
+     * 鼠标在地图上单击抬起时触发
      */
-    onDragging?: (event: MapEvent) => void;
+    onMouseUp?: (event: MapEvent) => void;
+
     /**
-     * 停止拖拽地图时触发。如地图有拖拽缓动效果，则在拽停止，缓动开始前触发
+     * 鼠标在地图上移动时触发
      */
-    onDragEnd?: (event: MapEvent) => void;
-    /**
-     * 鼠标点击热点时触发
-     */
-    onHotspotClick?: (event: {
-      type: string;
-      lnglat: LngLat;
-      name: string;
-      id: string;
-    }) => void;
-    /**
-     * 鼠标移出热点时触发
-     */
-    onHotspotOut?: (event: {
-      type: string;
-      lnglat: LngLat;
-      name: string;
-      id: string;
-    }) => void;
-    /**
-     * 鼠标滑过热点时触发
-     */
-    onHotspotOver?: (event: {
-      type: string;
-      lnglat: LngLat;
-      name: string;
-      id: string;
-    }) => void;
+    onMouseMove?: (event: MapEvent) => void;
+
     /**
      * 触摸开始时触发事件，仅适用移动设备
      */
     onTouchStart?: (event: MapEvent) => void;
-    /**
-     * 地图资源加载完成后触发事件
-     */
-    onComplete?: (event: { type: "complete" }) => void;
+
     /**
      * 拖拽地图过程中触发，仅适用移动设备
      */
@@ -470,24 +412,192 @@ declare namespace TMap {
      * 触摸结束时触发事件，仅适用移动设备
      */
     onTouchEnd?: (event: MapEvent) => void;
+
+    /**
+     * 开始拖拽地图时触发
+     */
+    onDragStart?: (event: MapsEvent) => void;
+
+    /**
+     * 地图开始发生拖拽交互时触发。
+     */
+    onDrag?: (event: MapsEvent) => void;
+
+    /**
+     * 停止拖拽地图时触发。如地图有拖拽缓动效果，则在拽停止，缓动开始前触发
+     */
+    onDragEnd?: (event: MapEvent) => void;
+
+    /**
+     * 地图开始平移时触发。
+     */
+    onPanStart?: (event: MapsEvent) => void;
+
+    /**
+     * 地图移动时触发。
+     */
+    onPan?: (event: MapsEvent) => void;
+
+    /**
+     * 地图移动时触发。
+     */
+    onPanEnd?: (event: MapsEvent) => void;
+
+    /**
+     * 地图开始旋转时触发。
+     */
+    onRotateStart?: (event: MapsEvent) => void;
+
+    /**
+     * 地图旋转时触发。
+     */
+    onRotate?: (event: MapsEvent) => void;
+
+    /**
+     * 地图旋转结束时触发。
+     */
+    onRotateEnd?: (event: MapsEvent) => void;
+
+    /**
+     * 地图开始发生俯仰角变化时触发。
+     */
+    onPitchStart: (event: MapsEvent) => void;
+
+    /**
+     * 	地图俯仰角变化时触发。
+     */
+    onPitch: (event: MapsEvent) => void;
+
+    /**
+     * 	地图俯仰角变化结束时触发。
+     */
+    onPitchEnd: (event: MapsEvent) => void;
+
+    /**
+     *地图缩放时触发。
+     */
+    onZoom?: (event: MapEvent) => void;
+
     /**
      * 地图容器尺寸改变事件
      */
     onResize?: (event: MapEvent) => void;
+
     /**
      * 中心点改变
      */
     onCenter_Changed?: (event: MapEvent) => void;
 
     /**
-     * 缩放改变
+     * 可视化区域改变
+     */
+    onBounds_Changed?: (event: MapEvent) => void;
+
+    /**
+     * 	地图显示比例变化时触发此事件。
+     */
+    onScale_Changed?: (event: MapEvent) => void;
+
+    /**
+     * 	给map添加控件的时候触发此事件。
+     */
+    onControl_Added?: (event: MapEvent) => void;
+
+    /**
+     * 从map移出控件的时候触发此事件。
+     */
+    onControl_removed?: (event: MapEvent) => void;
+
+    /**
+     * 动画进行中
+     */
+    onAnimation_Playing?: (event: AnimationEvent) => void;
+
+    /**
+     * 	动画进入下一循环，返回循环序号
+     */
+    onAnimation_Looped?: (n: number) => void;
+
+    /**
+     * 	动画结束
+     */
+    onAnimation_Ended?: (n: number) => void;
+
+    /**
+     * 	动画停止
+     */
+    onAnimation_Stopped?: () => void;
+
+    /**
+     * 缩放改变??????????????????
      */
     onZoom_Changed?: (event: MapEvent) => void;
 
     /**
-     * 可视化区域改变
+     * 地图移动结束后触发，包括平移，以及中心点变化的缩放。如地图有拖拽缓动效果，则在缓动结束后触发
      */
-    onBounds_Changed?: (event: MapEvent) => void;
+    onMoveEnd?: (event: MapEvent) => void;
+
+    // /**
+    //  * 鼠标滚轮开始缩放地图时触发
+    //  */
+    // onMouseWheel?: (event: MapEvent) => void;
+    // /**
+    //  * 鼠标移入地图容器内时触发
+    //  */
+    // onMouseOver?: (event: MapEvent) => void;
+    // /**
+    //  * 鼠标移出地图容器时触发
+    //  */
+    // onMouseOut?: (event: MapEvent) => void;
+    // /**
+    //  * 缩放开始时触发
+    //  */
+    // onZoomStart?: (event: MapEvent) => void;
+    // /**
+    //  * 缩放结束时触发
+    //  */
+    // onZoomEnd?: (event: MapEvent) => void;
+
+    // /**
+    //  * 地图平移开始时触发
+    //  */
+    // onMoveStart?: (event: MapEvent) => void;
+    // /**
+    //  * 拖拽地图过程中触发
+    //  */
+    // onDragging?: (event: MapEvent) => void;
+    // /**
+    //  * 鼠标点击热点时触发
+    //  */
+    // onHotspotClick?: (event: {
+    //   type: string;
+    //   lnglat: LngLat;
+    //   name: string;
+    //   id: string;
+    // }) => void;
+    // /**
+    //  * 鼠标移出热点时触发
+    //  */
+    // onHotspotOut?: (event: {
+    //   type: string;
+    //   lnglat: LngLat;
+    //   name: string;
+    //   id: string;
+    // }) => void;
+    // /**
+    //  * 鼠标滑过热点时触发
+    //  */
+    // onHotspotOver?: (event: {
+    //   type: string;
+    //   lnglat: LngLat;
+    //   name: string;
+    //   id: string;
+    // }) => void;
+    // /**
+    //  * 地图资源加载完成后触发事件
+    //  */
+    // onComplete?: (event: { type: "complete" }) => void;
   }
 
   interface MapStates {
@@ -617,6 +727,11 @@ declare namespace TMap {
      * //一个带洞多边形 [ [lng4,lat4] , [lng5,lat5] , [lng6,lat6] ], [ [lng7,lat7] , [lng8,lat8] , [lng9,lat9] ] ] ]}
      */
     mask?: Array<number>;
+
+    /**
+     * 是否显示地图上的控件
+     */
+    showControl?: boolean;
   }
 
   /**
@@ -754,7 +869,7 @@ declare namespace TMap {
     /**
      * 事件发生时的屏幕位置，返回{x:Number, y:Number}格式
      */
-    point: { x: number, y: number };
+    point: { x: number; y: number };
     /**
      * 事件类型。
      */
@@ -773,7 +888,6 @@ declare namespace TMap {
     originalEvent: MouseEvent | TouchEvent;
   }
 
-
   /**
    *  地图事件返回参数中的poi信息。
    */
@@ -787,5 +901,4 @@ declare namespace TMap {
      */
     name: string;
   }
-
 }

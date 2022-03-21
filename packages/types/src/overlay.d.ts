@@ -30,7 +30,7 @@ declare namespace TMap {
   // 点标记设置
   interface MultiMarkerOptions {
     id?: string;
-    // map: Map;
+    map?: Map;
     styles: any;
     geometries: any;
   }
@@ -168,6 +168,17 @@ declare namespace TMap {
      * 获取该范围的西南角坐标。
      */
     getSouthWest(): LatLng;
+
+
+    /**
+   * 获取该范围的西北角坐标。
+   */
+    getNorthWest(): LatLng;
+
+    /**
+     * 获取该范围的东南角坐标。
+     */
+    getSouthEast(): LatLng;
 
     /**
      * 扩展该范围边界，以包含指定的坐标点。
