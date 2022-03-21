@@ -1,6 +1,6 @@
 {
   "name": "@canmou/react-tmap-types",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "description": "用于加载腾讯地图SDK依赖，加载完成，全局将会有**`window.TMap`**对象。",
   "types": "index.d.ts",
   "repository": "https://github.com/canmou/react-tmap.git",
