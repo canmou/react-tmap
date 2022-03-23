@@ -367,7 +367,7 @@ declare namespace TMap {
     /**
      * 当地图容器中可见的瓦片加载完后会触发此事件。
      */
-    onTilesloaded: () => void;
+    onTilesloaded?: () => void;
 
     /**
      * 鼠标左键单击事件
@@ -461,17 +461,17 @@ declare namespace TMap {
     /**
      * 地图开始发生俯仰角变化时触发。
      */
-    onPitchStart: (event: MapsEvent) => void;
+    onPitchStart?: (event: MapsEvent) => void;
 
     /**
      * 	地图俯仰角变化时触发。
      */
-    onPitch: (event: MapsEvent) => void;
+    onPitch?: (event: MapsEvent) => void;
 
     /**
      * 	地图俯仰角变化结束时触发。
      */
-    onPitchEnd: (event: MapsEvent) => void;
+    onPitchEnd?: (event: MapsEvent) => void;
 
     /**
      *地图缩放时触发。
@@ -538,66 +538,14 @@ declare namespace TMap {
      */
     onMoveEnd?: (event: MapEvent) => void;
 
-    // /**
-    //  * 鼠标滚轮开始缩放地图时触发
-    //  */
-    // onMouseWheel?: (event: MapEvent) => void;
-    // /**
-    //  * 鼠标移入地图容器内时触发
-    //  */
-    // onMouseOver?: (event: MapEvent) => void;
-    // /**
-    //  * 鼠标移出地图容器时触发
-    //  */
-    // onMouseOut?: (event: MapEvent) => void;
-    // /**
-    //  * 缩放开始时触发
-    //  */
-    // onZoomStart?: (event: MapEvent) => void;
-    // /**
-    //  * 缩放结束时触发
-    //  */
-    // onZoomEnd?: (event: MapEvent) => void;
-
-    // /**
-    //  * 地图平移开始时触发
-    //  */
-    // onMoveStart?: (event: MapEvent) => void;
-    // /**
-    //  * 拖拽地图过程中触发
-    //  */
-    // onDragging?: (event: MapEvent) => void;
-    // /**
-    //  * 鼠标点击热点时触发
-    //  */
-    // onHotspotClick?: (event: {
-    //   type: string;
-    //   lnglat: LngLat;
-    //   name: string;
-    //   id: string;
-    // }) => void;
-    // /**
-    //  * 鼠标移出热点时触发
-    //  */
-    // onHotspotOut?: (event: {
-    //   type: string;
-    //   lnglat: LngLat;
-    //   name: string;
-    //   id: string;
-    // }) => void;
-    // /**
-    //  * 鼠标滑过热点时触发
-    //  */
-    // onHotspotOver?: (event: {
-    //   type: string;
-    //   lnglat: LngLat;
-    //   name: string;
-    //   id: string;
-    // }) => void;
-    // /**
-    //  * 地图资源加载完成后触发事件
-    //  */
-    // onComplete?: (event: { type: "complete" }) => void;
+    /**
+     * 鼠标移入地图容器内时触发
+     */
+    onMouseOver?: (event: MapEvent) => void;
+    /**
+     * 鼠标移出地图容器时触发
+     */
+    onMouseOut?: (event: MapEvent) => void;
   }
 
   interface MapStates {
@@ -651,83 +599,73 @@ declare namespace TMap {
    */
   interface MapOptions extends MapStates {
     /**
-     * 初始中心经纬度
+     * 地图中心点经纬度。
      */
-    center?: [number, number] | LngLat;
+    center?: LatLng;
     /**
-     * 	地图显示的缩放级别，可以设置为浮点数；若center与level未赋值，地图初始化默认显示用户所在城市范围。
+     * 地图缩放级别，支持3～20。
      */
     zoom?: number;
     /**
-     * 地图顺时针旋转角度，取值范围 [0-360] ，默认值：0
+     * 地图最小缩放级别，默认为3。
+     */
+    minZoom?: number;
+    /**
+     * 地图最大缩放级别，默认为20。
+     */
+    maxZoom?: number;
+    /**
+     * 地图在水平面上的旋转角度，顺时针方向为正，默认为0。
      */
     rotation?: number;
     /**
-     * 俯仰角度，默认 0，最大值根据地图当前 zoom 级别不断增大，2D地图下无效 。
+     * 地图俯仰角度，取值范围为0~80，默认为0。
      */
     pitch?: number;
     /**
-     * (default '2D')	地图视图模式, 默认为‘2D’，可选’3D’，选择‘3D’会显示 3D 地图效果。
+     * 地图显示比例，默认为1。
      */
-    viewMode?: "2D" | "3D";
+    scale?: number;
     /**
-     * (default ['bg','point','road','building'])	设置地图上显示的元素种类, 支持'bg'（地图背景）、'point'（POI点）、'road'（道路）、'building'（建筑物）
+     * 地图中心与容器的偏移量，Object的格式为 {x:Number, y:Number}（右方下方为正，单位为像素）。
      */
-    features?: Array<string>;
-    /** 地图图层数组，数组可以是图层 中的一个或多个，默认为普通二维地图。 当叠加多个 图层 时，普通二维地图需通过实例化一个TileLayer类实现。 如果你希望创建一个默认底图图层，使用 AMap.createDefaultLayer() */
-    layers?: (TileLayer | Satellite | Traffic | RoadNet)[];
+    offset?: object;
     /**
-     * (default [2,20])	地图显示的缩放级别范围, 默认为 [2, 20] ，取值范围 [2 ~ 20]
+     * 	是否支持拖拽移动地图，默认为true。
      */
-    zooms?: [number, number];
+    draggable?: boolean;
     /**
-     * (default true)	是否展示地图文字和 POI 信息。
+     * 是否支持鼠标滚轮缩放地图，默认为true。
      */
-    showLabel?: boolean;
+    scrollable?: boolean;
     /**
-     * 地图默认鼠标样式。参数 defaultCursor 应符合 CSS 的 cursor 属性规范。
+     * 	是否允许设置旋转角度；默认为true。在2D视图下，此属性无效。
      */
-    defaultCursor?: string;
+    rotatable?: boolean;
     /**
-     * 设置地图的显示样式，目前支持两种地图样式：
-     * - 第一种：自定义地图样式，如 "amap://styles/d6bf8c1d69cea9f5c696185ad4ac4c86" 可前往地图自定义平台定制自己的个性地图样式；
-     * - 第二种：官方样式模版,如"amap://styles/grey"。 其他模版样式及自定义地图的使用说明见开发指南
+     * 是否支持双击缩放地图，默认为true。
      */
-    mapStyle?: string;
+    doubleClickZoom?: boolean;
     /**
-     * 地图楼块的侧面颜色
+     * 地图缩放焦点控制。
      */
-    wallColor?: string | Array<number>;
+    mapZoomType?: MAP_ZOOM_TYPE;
     /**
-     * 地图楼块的顶面颜色
+     * 地图边界，设置后拖拽、缩放等操作无法将地图移动至边界外，默认为null。
      */
-    roofColor?: string | Array<number>;
+    boundary?: LatLngBounds;
     /**
-     * (default true) 是否展示地图 3D 楼块，默认 true
+     * 图样式ID，有效值为”style[编号]”，与key绑定，详见 个性化地图配置页面。
      */
-    showBuildingBlock?: boolean;
+    mapStyleId?: string;
     /**
-     * (default false) 是否自动展示室内地图，默认是 false
+     * 图样式ID，有效值为”style[编号]”，与key绑定，详见 个性化地图配置页面。
      */
-    showIndoorMap?: boolean;
+    baseMap?: BaseMap | BaseMap[];
     /**
-     * 天空颜色，3D 模式下带有俯仰角时会显示
+     * 地图视图模式，支持2D和3D，默认为3D。2D模式下不可对地图进行拖拽旋转，pitch和rotation始终保持为0。
      */
-    skyColor?: string | Array<number>;
-    /**
-     * 为 Map 实例指定掩模的路径，各图层将只显示路径范围内图像，3D视图下有效。 格式为一个经纬度的一维、二维或三维数组。
-     * 相关示例
-     * 一维数组时代表一个普通多边形路径，如:
-     * [lng1,lat1] , [lng2,lat2] , [lng3,lat3] ]
-     * 二维数组时代表一个带洞的多边形路径，如:
-     * [ [lng4,lat4] , [lng5,lat5] , [lng6,lat6] ], [ [lng7,lat7] , [lng8,lat8] , [lng9,lat9] ] ]
-     * 三维数组时代表多个多边形路径，如:
-     * [ [ [lng1,lat1] , [lng2,lat2] , [lng3,lat3] ],
-     * // 一个普通多边形 [
-     * //一个带洞多边形 [ [lng4,lat4] , [lng5,lat5] , [lng6,lat6] ], [ [lng7,lat7] , [lng8,lat8] , [lng9,lat9] ] ] ]}
-     */
-    mask?: Array<number>;
-
+    viewMode?: '2D' | '3D';
     /**
      * 是否显示地图上的控件
      */
@@ -900,5 +838,31 @@ declare namespace TMap {
      * 	Poi名称。
      */
     name: string;
+  }
+
+  /**
+   * BaseMap
+   */
+  interface BaseMap {
+    /**
+     * 类型
+     */
+    type: "vector" | "satellite" | "traffic";
+    /**
+     * 要素
+     */
+    features: string[];
+    /**
+     * 路况线网图的透明度，默认为1。
+     */
+    opacity?: number;
+    /**
+     * 路况流动粒子颜色组合，长度为4的数组，0-3位分别对应流畅、缓行、拥堵、极度拥堵，颜色支持rgb()，rgba()，#RRGGBB等形式。
+     */
+    flowColor?: string[];
+    /**
+     * 路况流动粒子速度组合，长度为4的数组，0-3位分别对应流畅、缓行、拥堵、极度拥堵，单位为pixel/s，默认为[80, 30, 10, 5] 。
+     */
+    flowSpeed?: number[];
   }
 }

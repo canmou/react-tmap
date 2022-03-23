@@ -12,7 +12,7 @@ type RenderProps =
   | { children: (data: { TMap: typeof TMap; map: TMap.Map; container?: HTMLDivElement | null }) => void }
   | { children: React.ReactNode };
 
-export const Map = forwardRef<MapProps & { map?: TMap.Map }, MapProps & RenderProps>(({ className, style, children, ...props }, ref) => {
+export const Map = forwardRef<MapProps & { map?: TMap.Map } & { TMap: typeof TMap }, MapProps & RenderProps>(({ className, style, children, ...props }, ref) => {
     const elmRef = useRef<HTMLDivElement>(null);
     const { setContainer, container, map } = useMap({ container: elmRef.current, ...props });
     useEffect(() => setContainer(elmRef.current), [elmRef.current]);

@@ -9,6 +9,8 @@ export interface MapChildProps {
     TMap?: typeof TMap;
 
     map?: TMap.Map;
+
+    visualizationHeat?: TMap.visualization.Heat;
 }
 
 export interface UseMap extends MapProps, MapChildProps {
