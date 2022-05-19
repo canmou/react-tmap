@@ -14,13 +14,13 @@ import { useEffect, useRef, useState } from "react";
 //     };
 //   }
 // }
-// function tile2long(x, z) {
-//   return (x / Math.pow(2, z)) * 360 - 180;
-// }
-// function tile2lat(y, z) {
-//   var n = Math.PI - (2 * Math.PI * y) / Math.pow(2, z);
-//   return (180 / Math.PI) * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n)));
-// }
+function tile2long(x, z) {
+  return (x / Math.pow(2, z)) * 360 - 180;
+}
+function tile2lat(y, z) {
+  var n = Math.PI - (2 * Math.PI * y) / Math.pow(2, z);
+  return (180 / Math.PI) * Math.atan(0.5 * (Math.exp(n) - Math.exp(-n)));
+}
 
 // const num2deg = (x, y, z) => {
 //   const n = Math.pow(2.9, z);
@@ -59,6 +59,8 @@ export const MapOverlayImageDemo = () => {
     init();
   }, [indexRef.current]);
 
+  let arrObj = {};
+
   const init = async () => {
     //初始化imageTileLayer
     if (indexRef.current && !isInitTile) {
@@ -86,30 +88,11 @@ export const MapOverlayImageDemo = () => {
 
             // 可用
             url = `https://canmou-bucket.oss-cn-beijing.aliyuncs.com/tile/%E6%AD%A6%E6%B1%89%E5%B8%82/${z}/${x1}_${y1}.png`;
-            return url;
+
             // const response = axios.get(`http://api.map.baidu.com/geoconv/v2/?ak=QaEIp9ufXkKPN110iE07KE5DnIeljFQV&coords=${tile2long(x, z)},${tile2lat(y, z)}`);
             // response.then(e => {
             //   console.log('then', e);
             // })
-            // new indexRef.current.TMap.MultiMarker({
-            //   map: indexRef.current.map,
-            //   styles: {
-            //     // 点标记样式
-            //     marker: new indexRef.current.TMap.MarkerStyle({
-            //       width: 20, // 样式宽
-            //       height: 30, // 样式高
-            //       anchor: { x: 10, y: 30 }, // 描点位置
-            //       src: "https://mapapi.qq.com/web/lbs/javascriptGL/demo/img/markerDefault.png", // 标记路径
-            //     }),
-            //   },
-            //   geometries: [
-            //     // 点标记数据数组
-            //     {
-            //       // 标记位置(经度，纬度，高度)
-            //       position: new indexRef.current.TMap.LatLng(lat, lng),
-            //     },
-            //   ],
-            // });
 
             // new indexRef.current.TMap.MultiMarker({
             //   map: indexRef.current.map,
@@ -136,8 +119,63 @@ export const MapOverlayImageDemo = () => {
             // 测试
             // console.log(num2deg(x, y, z));
             // console.log(tile2long(x, z), tile2lat(y, z));
-            // const lng = tile2long(x, z);
-            // const lat = tile2lat(y, z);
+            const lng = tile2long(x, z);
+            const lat = tile2lat(y, z);
+            const mk = new indexRef.current.TMap.MultiMarker({
+              map: indexRef.current.map,
+              styles: {
+                // 点标记样式
+                marker: new indexRef.current.TMap.MarkerStyle({
+                  width: 20, // 样式宽
+                  height: 30, // 样式高
+                  anchor: { x: 10, y: 30 }, // 描点位置
+                  src: "https://mapapi.qq.com/web/lbs/javascriptGL/demo/img/markerDefault.png", // 标记路径
+                }),
+              },
+              geometries: [
+                // 点标记数据数组
+                {
+                  // 标记位置(经度，纬度，高度)
+                  position: new indexRef.current.TMap.LatLng(lat, lng),
+                },
+              ],
+            });
+
+            var infoW = new indexRef.current.TMap.InfoWindow({
+              map: indexRef.current.map,
+              position: new indexRef.current.TMap.LatLng(lat, lng), //设置信息框位置
+              content: `${lng},${lat}`, //设置信息框内容
+              offset: { x: 0, y: -32 }
+            });
+            infoW.close();
+
+            var eventClick = function (evt) {
+              infoW.open()
+              console.info(evt.geometry)
+              var tempValue = String(evt.geometry.position.lng) + ',' + String(evt.geometry.position.lat);
+              var vite = localStorage.getItem("vite");
+              if (vite) {
+                vite = JSON.parse(vite);
+                vite.push(tempValue);
+              } else {
+                vite = [];
+                vite.push(tempValue)
+              }
+              localStorage.setItem("vite", JSON.stringify(vite));
+              // markerID.innerHTML = "markerID:" + evt.geometry.id;
+              // position.innerHTML = "当前marker位置：" + evt.geometry.position.toString();
+            }
+            mk.on("click", eventClick)
+    
+            // console.info(lng, lat)
+            const lngLat = lng + "," + lat;
+            if (typeof arrObj[z] === 'undefined') {
+              arrObj[z] = [];
+            }
+            arrObj[z].push(lngLat);
+            localStorage.setItem("arrObj-" + z, JSON.stringify(arrObj));
+
+            return url;
             // const temp = qqMapTransBMap(lng, lat);
             // const lng2 = temp.lng;
             // const lat2 = temp.lat;
@@ -154,7 +192,7 @@ export const MapOverlayImageDemo = () => {
           return url;
         },
         tileSize: 256, //瓦片像素尺寸
-        minZoom: 10, //显示自定义瓦片的最小级别
+        minZoom: 0, //显示自定义瓦片的最小级别
         maxZoom: 20, //显示自定义瓦片的最大级别
         visible: true, //是否可见
         zIndex: 5000, //层级高度（z轴）
@@ -201,6 +239,7 @@ export const MapOverlayImageDemo = () => {
       <div>
         <APILoader tkey="UBXBZ-BPTEJ-DEOFY-FAK72-P2Q7T-3GFRQ">
           <Map
+            zoom={4}
             // center={{ lat: 30.572, lng: 114.272223 }}
             center={{ lng: 114.18038033748121, lat: 30.473469123137388 }}
             ref={(instance) => {
