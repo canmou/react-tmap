@@ -1,0 +1,358 @@
+import { APILoader } from "@canmou/react-tmap-api-loader";
+import { Map } from "@canmou/react-tmap-map";
+import React, { useRef, useState, useEffect } from "react";
+import { Divider } from "antd";
+import * as turf from '@turf/turf'
+import squareGrid from '@turf/square-grid';
+import bbox from '@turf/bbox';
+import testPng from '../public/icon-position-sign.png'
+
+export const MapSquareGridDemo = () => {
+  // const [dragEnable, setDragEnable] = useState(true);
+  const [display, setDisplay] = useState(true);
+  const [zoom, setZoom] = useState(15);
+  const [viewMode, setViewMode] = useState("3D");
+  const indexRef = useRef();
+  const district = useRef();
+  const polygons = useRef();
+  const [cityBoundsArray,setCityBoundsArray] = useState([]);
+  const [districtBoundsArray,setDistrictBoundsArray] = useState([]);
+  const [rely, setRely] = useState(true)
+
+
+  let provinceSelect = document.getElementById('province');
+  let citySelect = document.getElementById('city');
+  let districtSelect = document.getElementById('district');
+  let provinceList = [];
+  let cityList = [];
+  const districtList = useRef([]);
+  useEffect(() => {
+    if (indexRef.current) {
+      district.current = new indexRef.current.TMap.service.District({
+        // 新建一个行政区划类
+        polygon: 2, // 返回行政区划边界的类型
+      });
+      polygons.current = new indexRef.current.TMap.MultiPolygon({
+        map: indexRef.current.map,
+        geometries: [],
+      });
+      district.current.getChildren().then((result) => {
+        // 获取省市区列表及其边界信息
+        provinceList = result.result[0];
+        provinceSelect.add(new Option('---请选择---', null));
+        provinceList.forEach((province, index) => {
+          provinceSelect.add(new Option(province.fullname, index));
+        });
+        citySelect.innerHTML = '';
+        districtSelect.innerHTML = '';
+      });
+    }
+  }, [rely])
+
+
+  function search(selector) {
+    if (selector.id === 'province' && selector.value) {
+      citySelect.innerHTML = '';
+      districtSelect.innerHTML = '';
+      citySelect.add(new Option('---请选择---', null));
+      district.current
+        .getChildren({ id: provinceList[selector.value].id })
+        .then((result) => {
+          // 根据选择的省市区获取其下级行政区划及其边界
+          cityList = result.result[0];
+          cityList.forEach((city, index) => {
+            citySelect.add(new Option(city.fullname, index));
+          });
+        });
+        console.log(selector.value)
+      drawPolygon(
+        provinceList[selector.value].id,
+        provinceList[selector.value].polygon
+      ); // 根据所选区域绘制边界
+    } else if (selector.id === 'city' && selector.value) {
+      districtSelect.innerHTML = '';
+      districtSelect.add(new Option('---请选择---', null));
+      district.current.getChildren({ id: cityList[selector.value].id }).then((result) => {
+        
+        // 根据选择的地级市或直辖市区获取其下级行政区划及其边界
+        if (result.result[0].length > 0 && result.result[0][0].id.length > 6) {
+          // 直辖市的区的下级即为街道级，故略过一级
+          districtList.current = [];
+          districtSelect.innerHTML = '';
+          districtSelect.add(new Option('---------', null));
+        } else {
+          // 非直辖市的地级市之下有区县级
+          districtList.current = result.result[0];
+          districtList.current.forEach((item, index) => {
+            districtSelect.add(new Option(item.fullname, index));
+          });
+        }
+      });
+      console.log(selector.value)
+      setCityBoundsArray(cityList[selector.value].polygon)
+      drawPolygon(cityList[selector.value].id, cityList[selector.value].polygon);
+      
+      // 根据所选区域绘制边界
+    } else if (selector.id === 'district' && selector.value) {
+        setDistrictBoundsArray(districtList.current[selector.value].polygon)
+      drawPolygon(
+        districtList.current[selector.value].id,
+        districtList.current[selector.value].polygon
+      );
+    } 
+  }
+  function drawPolygon(placeId, polygonArray) {
+    // 根据多边形顶点坐标数组绘制多边形
+    polygons.current.remove(polygons.current.getGeometries().map((item) => item.id));
+    var bounds = [];
+    var newGeometries = polygonArray.map((polygon, index) => {
+      bounds.push(fitBounds(polygon));
+      return {
+        id: `${placeId}_${index}`,
+        paths: polygon,
+      };
+    });
+    bounds = bounds.reduce((a, b) => {
+      return fitBounds([
+        a.getNorthEast(),
+        a.getSouthWest(),
+        b.getNorthEast(),
+        b.getSouthWest(),
+      ]);
+    });
+    polygons.current.updateGeometries(newGeometries);
+    indexRef.current.map.fitBounds(bounds);
+  }
+  function fitBounds(latLngList) {
+    // 由多边形顶点坐标数组计算能完整呈现该多边形的最小矩形范围
+    if (latLngList.length === 0) {
+      return null;
+    }
+    var boundsN = latLngList[0].getLat();
+    var boundsS = boundsN;
+    var boundsW = latLngList[0].getLng();
+    var boundsE = boundsW;
+    latLngList.forEach((point) => {
+      point.getLat() > boundsN && (boundsN = point.getLat());
+      point.getLat() < boundsS && (boundsS = point.getLat());
+      point.getLng() > boundsE && (boundsE = point.getLng());
+      point.getLng() < boundsW && (boundsW = point.getLng());
+    });
+    return new indexRef.current.TMap.LatLngBounds(
+      new indexRef.current.TMap.LatLng(boundsS, boundsW),
+      new indexRef.current.TMap.LatLng(boundsN, boundsE)
+    );
+  }
+
+  useEffect(() => {
+    if (cityBoundsArray.length>0) {
+      // console.log(cityBoundsArray)
+      let result = []
+      cityBoundsArray.forEach((item,index) => {
+        result = result.concat(item)
+      })
+      const res = []
+      result.map((item) => {
+          res.push([item.lng, item.lat])
+        
+      })
+      // console.log(res)
+
+      const line = turf.lineString(res);
+      const bbox = turf.bbox(line)
+      const cellSide = 3;
+      const options = { units: 'kilometers' };
+      const squareGrids = squareGrid(bbox, cellSide, options);
+
+      // console.log('123456', line, bbox, squareGrids)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      let square = []
+      squareGrids.features.map((item, index) => {
+        item.geometry.coordinates[0].pop()
+        square.push(item.geometry.coordinates[0])
+      })
+      console.log('市方格数据',square)
+    }
+  }, [cityBoundsArray])
+  useEffect(() => {
+    if (districtBoundsArray.length>0) {
+      // console.log(districtBoundsArray)
+      let result = []
+      districtBoundsArray.forEach((item,index) => {
+        result = result.concat(item)
+      })
+      const res = []
+      result.map((item) => {
+          res.push([item.lng, item.lat])
+        
+      })
+      // console.log(res)
+
+      const line = turf.lineString(res);
+      const bbox = turf.bbox(line)
+      const cellSide = 3;
+      const options = { units: 'kilometers' };
+      const squareGrids = squareGrid(bbox, cellSide, options);
+
+      // console.log('123456', line, bbox, squareGrids)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      let square = []
+      squareGrids.features.map((item, index) => {
+        item.geometry.coordinates[0].pop()
+        square.push(item.geometry.coordinates[0])
+      })
+      console.log('区或地级市方格数据',square)
+    }
+  }, [districtBoundsArray])
+
+  // async function isCity(location) {
+
+  //   const geocoder = new indexRef.current.TMap.service.Geocoder()
+  //   const result = await geocoder.getAddress({ location: location });
+  //   if (result.result.address_component.city === '广州市') {
+  //     return true
+  //   } else {
+  //     return false
+  //   }
+
+  // }
+
+  // useEffect(() => {
+  //   if (indexRef.current && square) {
+  //     let cityGrid = []
+  //     async function edit() {
+  //       for (let item of square) {
+  //         item[0] = new indexRef.current.TMap.LatLng(item[0][1], item[0][0])
+  //         item[1] = new indexRef.current.TMap.LatLng(item[1][1], item[1][0])
+  //         item[2] = new indexRef.current.TMap.LatLng(item[2][1], item[2][0])
+  //         item[3] = new indexRef.current.TMap.LatLng(item[3][1], item[3][0])
+  //         const one = await isCity(item[0])
+  //         const two = await isCity(item[1])
+  //         const three = await isCity(item[2])
+  //         const four = await isCity(item[3])
+  //         if (one || two || three || four) {
+  //           item[0] = [item[0].lat, item[0].lng]
+  //           item[1] = [item[1].lat, item[1].lng]
+  //           item[2] = [item[2].lat, item[2].lng]
+  //           item[3] = [item[3].lat, item[3].lng]
+  //           cityGrid.push(item)
+
+  //         }
+  //       }
+  //       localStorage.setItem('grids', JSON.stringify(cityGrid))
+  //       console.log(cityGrid)
+  //     }
+
+  //     if (JSON.parse(localStorage.getItem('grids')).length > 0) {
+  //       const object = JSON.parse(localStorage.getItem('grids'))
+  //       console.log(object)
+  //       object.map((item, index) => {
+  //         console.log(item[0][1], item[0][0])
+  //         item[0] = new indexRef.current.TMap.LatLng(item[0][0], item[0][1])
+  //         item[1] = new indexRef.current.TMap.LatLng(item[1][0], item[1][1])
+  //         item[2] = new indexRef.current.TMap.LatLng(item[2][0], item[2][1])
+  //         item[3] = new indexRef.current.TMap.LatLng(item[3][0], item[3][1])
+  //         // 初始化polygon
+  //         new indexRef.current.TMap.MultiMarker({
+  //           map: indexRef.current.map,
+  //           styles: {
+  //             // 点标记样式
+  //             marker: new indexRef.current.TMap.MarkerStyle({
+  //               width: 10, // 样式宽
+  //               height: 10, // 样式高
+  //               anchor: { x: 0.5, y: 0.5 }, // 描点位置
+  //             }),
+  //           },
+  //           geometries: [
+  //             // 点标记数据数组
+  //             {
+  //               // 标记位置(纬度，经度，高度)
+  //               position: item[0],
+  //               id: 'marker' + index,
+  //             },
+  //           ],
+  //         });
+  //       })
+  //     } else {
+  //       edit()
+  //     }
+
+
+
+
+  //     console.log(cityGrid)
+
+
+
+  //   }
+  // }, [rely, square])
+
+
+  return (
+    <div style={{ textAlign: "left" }}>
+      <Divider />
+      <h2>基本使用方式</h2>
+
+      <div>
+        <APILoader tkey="UBXBZ-BPTEJ-DEOFY-FAK72-P2Q7T-3GFRQ">
+          <div id="panel" style={{ display: 'flex', marginBottom: 20 }}>
+            <div className="input-item" style={{ marginRight: 30, }}>
+              <div className="title">省市区</div>
+              <select id='province' style={{ width: 200, }} onChange={(e) => {
+                if (indexRef.current) {
+                  search(e.target)
+                }
+              }}></select>
+            </div>
+            <div className="input-item" style={{ marginRight: 30, }}>
+              <div className="title">地级市</div>
+              <select id='city' style={{ width: 200, }} onChange={(e) => {
+                if (indexRef.current) {
+                  search(e.target)
+                }
+              }}></select>
+            </div>
+            <div className="input-item" style={{ marginRight: 30, }}>
+              <div className="title">区县</div>
+              <select id='district' style={{ width: 200, }} onChange={(e) => {
+                if (indexRef.current) {
+                  search(e.target)
+                }
+              }}></select>
+            </div>
+          </div>
+          <Map
+            center={[23.16, 113.23]}
+            zoom={10}
+            // var center2 = new TMap.LatLng(center[1], center[0]);
+            style={{ height: "800px" }}
+            mapStyleId="style1"
+            baseMap={{
+              type: "vector",
+              features: ["base", "point"], // 隐藏矢量文字
+            }}
+            ref={(instance) => {
+              if (instance && instance.map && instance.TMap) {
+                indexRef.current = instance;
+                setRely(false)
+              }
+            }}
+            viewMode={"2D"}
+          />
+
+
+        </APILoader>
+      </div>
+      <Divider />
+    </div>
+  );
+};
+// export className MapDemo extends Component {
+//   render() {
+//     return (
+//       <APILoader tkey="UBXBZ-BPTEJ-DEOFY-FAK72-P2Q7T-3GFRQ">
+//         <Map style={{ width: "300px", height: "300px" }} />
+//       </APILoader>
+//     );
+//   }
+// }

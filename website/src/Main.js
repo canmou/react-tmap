@@ -8,6 +8,10 @@ import { HeatDemo } from "./components/heat-demo";
 import { CustomInfoWindowDemo } from './components/custom-infoWindow-demo';
 import { MapOverlayWmsDemo } from './components/map-overlay-wms-demo';
 import { MapOverlayImageDemo } from './components/map-overlay-image-demo';
+import { MapSquareGridDemo } from './components/map-squareGrid';
+import { MapCoordinate } from './components/map-coordinate';
+import { MapMarkPoints } from './components/map-markPoints';
+import { MapBusinessDistrict } from './components/map-BusinessDistrict';
 import { useState } from "react";
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
@@ -51,6 +55,10 @@ export const Main = () => {
                 <Menu.Item key="6">自定义信息窗体</Menu.Item>
                 <Menu.Item key="7">瓦片相关[wms瓦片]</Menu.Item>
                 <Menu.Item key="8">瓦片相关[图片瓦片]</Menu.Item>
+                <Menu.Item key="9">地图切分方格</Menu.Item>
+                <Menu.Item key="10">地图点标记</Menu.Item>
+                <Menu.Item key="11">地图坐标拾取</Menu.Item>
+                <Menu.Item key="12">地图商圈划分</Menu.Item>
               </SubMenu>
             </Menu>
           </Sider>
@@ -63,6 +71,10 @@ export const Main = () => {
             {menuSelect === "6" && <CustomInfoWindowDemo />}
             {menuSelect === "7" && <MapOverlayWmsDemo />}
             {menuSelect === "8" && <MapOverlayImageDemo />}
+            {menuSelect === "9" && <MapSquareGridDemo />}
+            {menuSelect === "10" && <MapMarkPoints />}
+            {menuSelect === "11" && <MapCoordinate />}
+            {menuSelect === "12" && <MapBusinessDistrict />}
           </Content>
         </Layout>
       </Content>

@@ -1,4 +1,4 @@
-import { Map, APILoader, InfoWindow } from "@canmou/react-tmap";
+import { Map, APILoader } from "@canmou/react-tmap";
 import { useEffect, useRef, useState } from "react";
 import "./custom-infoWindow-demo.css";
 
@@ -6,7 +6,7 @@ export const CustomInfoWindowDemo = () => {
   const indexRef = useRef();
   const firstInfoWindowRefAll = useRef([]);
   const secondInfoWindowRefAll = useRef([]);
-  const endInfoWindowRefAll = useRef([]);
+  // const endInfoWindowRefAll = useRef([]);
   const [tab, setTab] = useState(1);
 
   const info = [];
@@ -72,64 +72,64 @@ export const CustomInfoWindowDemo = () => {
       setTab(1);
     }
   };
-  const changeInfoWindow = () => {
-    const TMap = indexRef.current.TMap;
-    const map = indexRef.current.map;
-    if (tab === 1) {
-      setTimeout(() => {
-        const tempInfoWindow = new TMap.InfoWindow({
-          map: map,
-          position: new TMap.LatLng(23.36, 113.83),
-          enableCustom: true,
-          zIndex: 99, //信息窗的z-index值
-          offset: { y: -90, x: 0 },
-          content: `<div class="info_card">
-                <div class="title"><div class="left">No.1</div>
-                <div class="right"><div class="title_name">测试窗体</div>
-                <div>销量： 0</div>
-                </div></div>
-                <span class="top-border"><span class="cancle top"></span></span>
-                </div>`,
-        });
-        if (endInfoWindowRefAll.current) {
-          endInfoWindowRefAll.current.forEach((e) => {
-            e.info.setMap(null);
-          });
-        }
-        endInfoWindowRefAll.current.push({
-          info: tempInfoWindow,
-        });
-      }, 500);
+  // const changeInfoWindow = () => {
+  //   const TMap = indexRef.current.TMap;
+  //   const map = indexRef.current.map;
+  //   if (tab === 1) {
+  //     setTimeout(() => {
+  //       const tempInfoWindow = new TMap.InfoWindow({
+  //         map: map,
+  //         position: new TMap.LatLng(23.36, 113.83),
+  //         enableCustom: true,
+  //         zIndex: 99, //信息窗的z-index值
+  //         offset: { y: -90, x: 0 },
+  //         content: `<div class="info_card">
+  //               <div class="title"><div class="left">No.1</div>
+  //               <div class="right"><div class="title_name">测试窗体</div>
+  //               <div>销量： 0</div>
+  //               </div></div>
+  //               <span class="top-border"><span class="cancle top"></span></span>
+  //               </div>`,
+  //       });
+  //       if (endInfoWindowRefAll.current) {
+  //         endInfoWindowRefAll.current.forEach((e) => {
+  //           e.info.setMap(null);
+  //         });
+  //       }
+  //       endInfoWindowRefAll.current.push({
+  //         info: tempInfoWindow,
+  //       });
+  //     }, 500);
 
-      setTab(2);
-    } else {
-      if (endInfoWindowRefAll.current) {
-        setTimeout(() => {
-          const temp2InfoWindow = new TMap.InfoWindow({
-            map: map,
-            position: new TMap.LatLng(23.16, 113.03),
-            enableCustom: true,
-            zIndex: 99, //信息窗的z-index值
-            offset: { y: -90, x: 0 },
-            content: `<div class="info_card">
-                  <div class="title"><div class="left">No.2</div>
-                  <div class="right"><div class="title_name">测试窗体2</div>
-                  <div>销量： 0</div>
-                  </div></div>
-                  <span class="top-border"><span class="cancle top"></span></span>
-                  </div>`,
-          });
-          endInfoWindowRefAll.current.forEach((e) => {
-            e.info.setMap(null);
-          });
-          endInfoWindowRefAll.current.push({
-            info: temp2InfoWindow,
-          });
-        }, 800);
-      }
-      setTab(1);
-    }
-  };
+  //     setTab(2);
+  //   } else {
+  //     if (endInfoWindowRefAll.current) {
+  //       setTimeout(() => {
+  //         const temp2InfoWindow = new TMap.InfoWindow({
+  //           map: map,
+  //           position: new TMap.LatLng(23.16, 113.03),
+  //           enableCustom: true,
+  //           zIndex: 99, //信息窗的z-index值
+  //           offset: { y: -90, x: 0 },
+  //           content: `<div class="info_card">
+  //                 <div class="title"><div class="left">No.2</div>
+  //                 <div class="right"><div class="title_name">测试窗体2</div>
+  //                 <div>销量： 0</div>
+  //                 </div></div>
+  //                 <span class="top-border"><span class="cancle top"></span></span>
+  //                 </div>`,
+  //         });
+  //         endInfoWindowRefAll.current.forEach((e) => {
+  //           e.info.setMap(null);
+  //         });
+  //         endInfoWindowRefAll.current.push({
+  //           info: temp2InfoWindow,
+  //         });
+  //       }, 800);
+  //     }
+  //     setTab(1);
+  //   }
+  // };
 
   useEffect(() => {
     if (indexRef.current) {
