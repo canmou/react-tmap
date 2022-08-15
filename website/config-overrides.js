@@ -29,7 +29,7 @@ module.exports = {
         openAnalyzer: false,
       })
     ),
-    setWebpackPublicPath('/react-tmap'),
+    setWebpackPublicPath('/react-tmap/website/build'),
     addWebpackModuleRule({
       test: /\.(js|jsx|ts|tsx)$/,
       exclude: /node_modules\/(?!@canmou)/,
