@@ -4,6 +4,7 @@ const {
   watchAll,
   addWebpackPlugin,
   addWebpackAlias,
+  setWebpackPublicPath,
   addWebpackModuleRule,
   addWebpackResolve,
   // useBabelRc,
@@ -28,6 +29,7 @@ module.exports = {
         openAnalyzer: false,
       })
     ),
+    setWebpackPublicPath('/react-tmap'),
     addWebpackModuleRule({
       test: /\.(js|jsx|ts|tsx)$/,
       exclude: /node_modules\/(?!@canmou)/,
