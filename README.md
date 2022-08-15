@@ -1,7 +1,7 @@
 <br /><br />
 <p align="center">
   <a href="https://github.com/canmou/react-tmap">
-    <img src="https://canmou.github.io/react-tmap/logo.png" height="80px" alt="腾讯地图 React 组件 logo" />
+    <img src="https://canmou.github.io/react-tmap/logo.svg" height="80px" alt="腾讯地图 React 组件 logo" />
   </a>
 </p>
 <h3 align="center">腾讯地图 React 组件</h3>
