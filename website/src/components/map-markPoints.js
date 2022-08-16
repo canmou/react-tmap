@@ -8,7 +8,8 @@ export const MapMarkPoints = () => {
   // const [dragEnable, setDragEnable] = useState(true);
   const [rely, setRely] = useState(true);
   const indexRef = useRef();
-
+  const multiMarker = useRef();
+  const multiMarkeres = useRef();
 
  
   useEffect(() => {
@@ -29,7 +30,7 @@ export const MapMarkPoints = () => {
       ]
       testCoordinate.map((item,index) => {
         // 初始化polygon
-        new indexRef.current.TMap.MultiMarker({
+        multiMarker.current = new indexRef.current.TMap.MultiMarker({
           map: indexRef.current.map,
           styles: {
             // 点标记样式
@@ -66,7 +67,7 @@ export const MapMarkPoints = () => {
       ]
       testCoordinates.map((item,index) => {
         // 初始化polygon
-        new indexRef.current.TMap.MultiMarker({
+        multiMarkeres.current = new indexRef.current.TMap.MultiMarker({
           map: indexRef.current.map,
           styles: {
             // 点标记样式
@@ -96,7 +97,14 @@ export const MapMarkPoints = () => {
 
     }
   }, [rely])
-
+  useEffect(()=>{
+    return componentWillUnmount
+},[])
+function componentWillUnmount() {
+    // 组件销毁时你要执行的代码
+    multiMarker.current.setMap(null)
+    multiMarkeres.current.setMap(null)
+  }
 
   return (
     <div style={{ textAlign: "left" }}>

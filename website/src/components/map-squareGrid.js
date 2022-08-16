@@ -24,7 +24,7 @@ export const MapSquareGridDemo = () => {
   let citySelect = document.getElementById('city');
   let districtSelect = document.getElementById('district');
   let provinceList = [];
-  let cityList = [];
+  const cityList = useRef([]);
   const districtList = useRef([]);
   useEffect(() => {
     if (indexRef.current) {
@@ -59,8 +59,8 @@ export const MapSquareGridDemo = () => {
         .getChildren({ id: provinceList[selector.value].id })
         .then((result) => {
           // 根据选择的省市区获取其下级行政区划及其边界
-          cityList = result.result[0];
-          cityList.forEach((city, index) => {
+          cityList.current = result.result[0];
+          cityList.current.forEach((city, index) => {
             citySelect.add(new Option(city.fullname, index));
           });
         });
@@ -72,7 +72,7 @@ export const MapSquareGridDemo = () => {
     } else if (selector.id === 'city' && selector.value) {
       districtSelect.innerHTML = '';
       districtSelect.add(new Option('---请选择---', null));
-      district.current.getChildren({ id: cityList[selector.value].id }).then((result) => {
+      district.current.getChildren({ id: cityList.current[selector.value].id }).then((result) => {
         
         // 根据选择的地级市或直辖市区获取其下级行政区划及其边界
         if (result.result[0].length > 0 && result.result[0][0].id.length > 6) {
@@ -89,8 +89,8 @@ export const MapSquareGridDemo = () => {
         }
       });
       console.log(selector.value)
-      setCityBoundsArray(cityList[selector.value].polygon)
-      drawPolygon(cityList[selector.value].id, cityList[selector.value].polygon);
+      setCityBoundsArray(cityList.current[selector.value].polygon)
+      drawPolygon(cityList.current[selector.value].id, cityList.current[selector.value].polygon);
       
       // 根据所选区域绘制边界
     } else if (selector.id === 'district' && selector.value) {
@@ -323,10 +323,9 @@ export const MapSquareGridDemo = () => {
           </div>
           <Map
             center={[23.16, 113.23]}
-            zoom={10}
+            zoom={8}
             // var center2 = new TMap.LatLng(center[1], center[0]);
             style={{ height: "800px" }}
-            mapStyleId="style1"
             baseMap={{
               type: "vector",
               features: ["base", "point"], // 隐藏矢量文字

@@ -7,6 +7,8 @@ import data from './1.json'
 export const MapBusinessDistrict = () => {
   
   const indexRef = useRef();
+  const multiLabel = useRef();
+  const multiPolygon = useRef();
   const [rely, setRely] = useState(true)
 
   useEffect(() => {
@@ -20,7 +22,7 @@ export const MapBusinessDistrict = () => {
         const southwest = indexRef.current.TMap.geometry.computeDestination(southeast, -90, 1000)
         const path = [northwest,northeast,southeast,southwest]
         console.log(northwest,northeast,southeast,southwest)
-        new indexRef.current.TMap.MultiLabel({
+        multiLabel.current = new indexRef.current.TMap.MultiLabel({
           map: indexRef.current.map,
           styles: {
             label: new indexRef.current.TMap.LabelStyle({
@@ -45,7 +47,7 @@ export const MapBusinessDistrict = () => {
             },
           ],
         });
-        new indexRef.current.TMap.MultiPolygon({
+        multiPolygon.current = new indexRef.current.TMap.MultiPolygon({
           map: indexRef.current.map, // 显示多边形图层的底图
           styles: {
             // 多边形的相关样式
@@ -73,7 +75,14 @@ export const MapBusinessDistrict = () => {
     }
   }, [rely])
 
-
+  useEffect(()=>{
+    return componentWillUnmount
+},[])
+function componentWillUnmount() {
+    // 组件销毁时你要执行的代码
+    multiLabel.current.setMap(null)
+    multiPolygon.current.setMap(null)
+  }
  
 
 
