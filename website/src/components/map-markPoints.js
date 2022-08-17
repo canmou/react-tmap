@@ -102,8 +102,8 @@ export const MapMarkPoints = () => {
 },[])
 function componentWillUnmount() {
     // 组件销毁时你要执行的代码
-    multiMarker.current.setMap(null)
-    multiMarkeres.current.setMap(null)
+    multiMarker.current && multiMarker.current.setMap(null)
+    multiMarkeres.current && multiMarkeres.current.setMap(null)
   }
 
   return (

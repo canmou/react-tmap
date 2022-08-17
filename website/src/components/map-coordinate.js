@@ -59,6 +59,8 @@ export const MapCoordinate = () => {
                     });
                     markers.current.updateGeometries(geometries);
                     markers.current.on('click', (e) => {
+                        const test = document.getElementsByClassName("map")
+                        test[0].style.cssText = `font-size: 1px; height: 800px; cursor: pointer; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;`
                         infoWindowList.current[Number(e.geometry.id)].open();
                         document.getElementById('resultCoordinate').value= `${e.geometry.position.lat},${e.geometry.position.lng}`
                     });
@@ -69,7 +71,8 @@ export const MapCoordinate = () => {
     useEffect(() => {
         if(indexRef.current){
             indexRef.current.map.on('mousemove',(e)=>{
-                console.log(e)
+                const test = document.getElementsByClassName("map")
+                test[0].style.cssText = `font-size: 1px; height: 800px; cursor: crosshair; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;`
                 if(multiLabel.current){
                     multiLabel.current.setMap(null)
                 }
@@ -101,6 +104,8 @@ export const MapCoordinate = () => {
             })
 
             indexRef.current.map.on('click',(e)=>{
+                const test = document.getElementsByClassName("map")
+                test[0].style.cssText = `font-size: 1px; height: 800px; cursor: pointer; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative;`
                 document.getElementById('resultCoordinate').value = `${e.latLng.lat.toFixed(6)},${e.latLng.lng.toFixed(6)}`
             })
         }
@@ -110,8 +115,8 @@ export const MapCoordinate = () => {
     },[])
     function componentWillUnmount() {
         // 组件销毁时你要执行的代码
-        markers.current.setMap(null)
-        multiLabel.current.setMap(null)
+        markers.current && markers.current.setMap(null)
+        multiLabel.current && multiLabel.current.setMap(null)
       }
  
 
@@ -206,6 +211,7 @@ export const MapCoordinate = () => {
                         // var center2 = new TMap.LatLng(center[1], center[0]);
                         style={{ height: "800px" }}
                         mapStyleId="style1"
+                        className='map'
                         baseMap={{
                             type: "vector",
                             features: ["base", "point"], // 隐藏矢量文字
