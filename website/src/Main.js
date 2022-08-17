@@ -55,7 +55,7 @@ export const Main = () => {
                 <Menu.Item key="6">自定义信息窗体</Menu.Item>
                 <Menu.Item key="7">瓦片相关[wms瓦片]</Menu.Item>
                 <Menu.Item key="8">瓦片相关[图片瓦片]</Menu.Item>
-                <Menu.Item key="9">地图切分方格</Menu.Item>
+                <Menu.Item key="9">地图行政区生成切分方格数据</Menu.Item>
                 <Menu.Item key="10">地图点标记</Menu.Item>
                 <Menu.Item key="11">地图坐标拾取</Menu.Item>
                 <Menu.Item key="12">地图商圈划分</Menu.Item>
