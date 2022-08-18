@@ -23,7 +23,7 @@ export const MapSquareGridDemo = () => {
   let provinceSelect = document.getElementById('province');
   let citySelect = document.getElementById('city');
   let districtSelect = document.getElementById('district');
-  let provinceList = [];
+  const provinceList = useRef([]);
   const cityList = useRef([]);
   const districtList = useRef([]);
   useEffect(() => {
@@ -38,9 +38,9 @@ export const MapSquareGridDemo = () => {
       });
       district.current.getChildren().then((result) => {
         // 获取省市区列表及其边界信息
-        provinceList = result.result[0];
+        provinceList.current = result.result[0];
         provinceSelect.add(new Option('---请选择---', null));
-        provinceList.forEach((province, index) => {
+        provinceList.current.forEach((province, index) => {
           provinceSelect.add(new Option(province.fullname, index));
         });
         citySelect.innerHTML = '';
@@ -56,7 +56,7 @@ export const MapSquareGridDemo = () => {
       districtSelect.innerHTML = '';
       citySelect.add(new Option('---请选择---', null));
       district.current
-        .getChildren({ id: provinceList[selector.value].id })
+        .getChildren({ id: provinceList.current[selector.value].id })
         .then((result) => {
           // 根据选择的省市区获取其下级行政区划及其边界
           cityList.current = result.result[0];
@@ -66,8 +66,8 @@ export const MapSquareGridDemo = () => {
         });
         console.log(selector.value)
       drawPolygon(
-        provinceList[selector.value].id,
-        provinceList[selector.value].polygon
+        provinceList.current[selector.value].id,
+        provinceList.current[selector.value].polygon
       ); // 根据所选区域绘制边界
     } else if (selector.id === 'city' && selector.value) {
       districtSelect.innerHTML = '';
@@ -240,7 +240,6 @@ export const MapSquareGridDemo = () => {
             </div>
           </div>
           <Map
-            center={[23.16, 113.23]}
             zoom={8}
             // var center2 = new TMap.LatLng(center[1], center[0]);
             style={{ height: "800px" }}
