@@ -13,7 +13,7 @@ const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const path = require("path");
 // const getCacheIdentifier = require("react-dev-utils/getCacheIdentifier");
-
+console.log(process.env.NODE_ENV)
 module.exports = {
   webpack: override(
     // 防止react 冲突
@@ -29,7 +29,8 @@ module.exports = {
         openAnalyzer: false,
       })
     ),
-    setWebpackPublicPath('/react-tmap/website/build'),
+    
+    setWebpackPublicPath(process.env.NODE_ENV === 'development'?'':'/react-tmap/website/build'),
     addWebpackModuleRule({
       test: /\.(js|jsx|ts|tsx)$/,
       exclude: /node_modules\/(?!@canmou)/,
